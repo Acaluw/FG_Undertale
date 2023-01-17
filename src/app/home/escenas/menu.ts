@@ -16,7 +16,7 @@ export default class Menu extends Phaser.Scene {
         const ancho = this.sys.canvas.width
         const alto = this.sys.canvas.height;
 
-        const background = this.add.image(ancho / 2, alto / 2, Constantes.FONDOS.BANTHA); // muestra imagen en posición 400,70
+        const background = this.add.image(ancho / 2, alto / 2, Constantes.FONDOS.LOGO); // muestra imagen en posición 400,70
         background.setInteractive();//Cualquier elemento gráfico puede ser interactivo (texto, imagen, fondo, sprite, etc..)
 
         this.cambiarEscena(background, Constantes.ESCENAS.NIVEL1);//Se podría haber puesto el fondo interactivo para clickar y entrar en el juego

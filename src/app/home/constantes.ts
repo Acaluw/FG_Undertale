@@ -38,7 +38,7 @@ const Constantes = {
     },
     FONDOS:{
         NIVEL1: 'Arena',
-        BANTHA: 'Bantha',
+        LOGO: 'menulogo',
     }, 
     FUENTES:{
         NOMBREFUENTE: 'fuentePixel'//id interno
@@ -48,7 +48,10 @@ const Constantes = {
         ID: 'jugador',//Nombre de objeto en el tileset
         ANIMACION:{
             ESPERAR: 'esperar', 
-            CORRER: 'correr',
+            ANDAR_DERECHA: 'andar_right',
+            ANDAR_IZQUIERDA: 'andar_left',
+            ANDAR_ARRIBA: 'andar_up',
+            ANDAR_ABAJO: 'andar_down',
             SALTAR: 'saltar',
             GOLPEAR: 'golpear'
         }

@@ -51,7 +51,7 @@ export default class CargaDatos extends Phaser.Scene {
         //Mapas
 
         //Fondos e imágenes
-        this.load.image(Constantes.FONDOS.BANTHA, 'assets/imagenes/bantha.png');
+        this.load.image(Constantes.FONDOS.LOGO, 'assets/imagenes/menulogo.png');
 
         //Fuente
 

@@ -20,7 +20,7 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         this.velocidad = 300;//pixels por segundo (aprox)
 
         //Correcciones de "sprite", offset y tamaño general
-        this.body.setSize(20, 50);//Se corrige tamaño de sprite
+        this.body.setSize(20, 30);//Se corrige tamaño de sprite
         this.body.setOffset(0, 0);//Corrige offset de los sprites (en este caso no hay desplazamiento)
         this.scaleX = 2;
         this.scaleY = 2;
@@ -37,34 +37,29 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
             console.log("Izquierda...");
             this.setVelocityX(this.velocidad * -1);
             this.flipX = true;
+            this.anims.play(Constantes.JUGADOR.ANIMACION.ANDAR_IZQUIERDA, true);
             // this.setTexture(Constantes.JUGADOR.ANIMACION.ESPERAR);
         } else if (this.cursores.right.isDown) {
             console.log("Derecha...");
             this.setVelocityX(this.velocidad);
             this.flipX = false;
+            this.anims.play(Constantes.JUGADOR.ANIMACION.ANDAR_DERECHA, true);
         } else if (this.cursores.down.isDown) {
             console.log("Abajo...");
             this.setVelocityY(this.velocidad);//En imágenes el origen de Y es la parte superior de la pantalla, así que sumamos para "bajar" 
             /*  } else if (this.cursores.up.isDown && this.body.blocked.down) { //GRAVEDAD: Solo salta si estamos en el suelo, evita el "vuelo"
                   console.log("Arriba...");
                   this.setVelocityY(this.velocidad*-1);*/
+            this.anims.play(Constantes.JUGADOR.ANIMACION.ANDAR_ABAJO, true);
         } else if (this.cursores.up.isDown) { //SIN GRAVEDAD: Solo salta si estamos en el suelo, evita el "vuelo"
             console.log("Arriba...");
             this.setVelocityY(this.velocidad * -1);//Restamos Y para "subir"
+            this.anims.play(Constantes.JUGADOR.ANIMACION.ANDAR_ARRIBA, true);
         } else { //Esta parte es importante para que frene el movimiento si no pulsamos nada
             console.log("Esperando...");
             this.setVelocityX(0);
-             this.setVelocityY(0); // SIN GRAVEDAD: SI NO QUEREMOS gravedad hay que descomentar esta línea
+            this.setVelocityY(0); // SIN GRAVEDAD: SI NO QUEREMOS gravedad hay que descomentar esta línea
             this.anims.play(Constantes.JUGADOR.ANIMACION.ESPERAR, true);
-
-        }
-
-        //Tecla independiente
-        if (this.teclaEspacio.isDown && this.body.blocked.down) {
-            console.log("Salto...");
-            this.setVelocityY(this.velocidad * -1);
         }
     }
-
-
 }

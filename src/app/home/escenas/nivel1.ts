@@ -40,14 +40,59 @@ export default class Nivel1 extends Phaser.Scene {
         });
 
         //Se establecen las animaciones (siempre se usa la misma plantilla)
-         this.anims.create({
+        this.anims.create({
             key: Constantes.JUGADOR.ANIMACION.ESPERAR,
             frames: this.anims.generateFrameNames(Constantes.JUGADOR.ID, {
-                start: 4,
+                start: 1,
+                prefix: "sprite", //Prefijo de los sprites
+                end: 1
+            }),
+            frameRate: 1, //frames por segundo
+            repeat: 2 //Num repeticiones. -1: Repite siempre. Da igual lo que pongamos porque llamamos a las animaciones constantemente
+        });
+
+        
+        this.anims.create({
+            key: Constantes.JUGADOR.ANIMACION.ANDAR_IZQUIERDA,
+            frames: this.anims.generateFrameNames(Constantes.JUGADOR.ID, {
+                start: 5,
                 prefix: "sprite", //Prefijo de los sprites
                 end: 6
             }),
-            frameRate: 1, //frames por segundo
+            frameRate: 5, //frames por segundo
+            repeat: 2 //Num repeticiones. -1: Repite siempre. Da igual lo que pongamos porque llamamos a las animaciones constantemente
+        });
+
+        this.anims.create({
+            key: Constantes.JUGADOR.ANIMACION.ANDAR_DERECHA,
+            frames: this.anims.generateFrameNames(Constantes.JUGADOR.ID, {
+                start: 7,
+                prefix: "sprite", //Prefijo de los sprites
+                end: 8
+            }),
+            frameRate: 5, //frames por segundo
+            repeat: 2 //Num repeticiones. -1: Repite siempre. Da igual lo que pongamos porque llamamos a las animaciones constantemente
+        });
+
+        this.anims.create({
+            key: Constantes.JUGADOR.ANIMACION.ANDAR_ARRIBA,
+            frames: this.anims.generateFrameNames(Constantes.JUGADOR.ID, {
+                start: 9,
+                prefix: "sprite", //Prefijo de los sprites
+                end: 12
+            }),
+            frameRate: 5, //frames por segundo
+            repeat: 2 //Num repeticiones. -1: Repite siempre. Da igual lo que pongamos porque llamamos a las animaciones constantemente
+        });
+
+        this.anims.create({
+            key: Constantes.JUGADOR.ANIMACION.ANDAR_ABAJO,
+            frames: this.anims.generateFrameNames(Constantes.JUGADOR.ID, {
+                start: 1,
+                prefix: "sprite", //Prefijo de los sprites
+                end: 4
+            }),
+            frameRate: 5, //frames por segundo
             repeat: 2 //Num repeticiones. -1: Repite siempre. Da igual lo que pongamos porque llamamos a las animaciones constantemente
         });
 
@@ -57,7 +102,7 @@ export default class Nivel1 extends Phaser.Scene {
         //Se pueden extraer sprites del ATLAS
         const sprite = this.add.sprite(200, 200, Constantes.JUGADOR.ID, 'sprite4');//Muestra sprite 4 del ATLAS
         sprite.setInteractive();
-        sprite.anims.play(Constantes.JUGADOR.ANIMACION.ESPERAR, true);//Animará una única vez ya que repeat=0 en la configuración
+        sprite.anims.play(Constantes.JUGADOR.ANIMACION.ANDAR_IZQUIERDA, true);//Animará una única vez ya que repeat=0 en la configuración
         sprite.scaleX = 2;
         sprite.scaleY = 2;
 
