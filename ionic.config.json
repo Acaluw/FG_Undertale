@@ -1,0 +1,7 @@
+{
+  "name": "mandalorian",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
