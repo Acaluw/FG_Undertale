@@ -55,7 +55,13 @@ const Constantes = {
             SALTAR: 'saltar',
             GOLPEAR: 'golpear'
         }
-    }, 
+    },
+    GUARDAR:{
+        ID: 'guardar',//Nombre de objeto en el tileset
+        ANIMACION:{
+            MOVIMIENTO: 'movimiento', 
+        }
+    },
     JAWA:{
         ID: 'jawa',//Nombre de objeto en el tileset
         MUERTE: 'muerte',

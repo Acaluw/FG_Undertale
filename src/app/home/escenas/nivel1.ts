@@ -106,6 +106,23 @@ export default class Nivel1 extends Phaser.Scene {
         sprite.scaleX = 2;
         sprite.scaleY = 2;
 
+        //MISCELANEOS
+        this.anims.create({
+            key: Constantes.GUARDAR.ANIMACION.MOVIMIENTO,
+            frames: this.anims.generateFrameNames(Constantes.GUARDAR.ID, {
+                start: 1,
+                prefix: "sprite", //Prefijo de los sprites
+                end: 2
+            }),
+            frameRate: 3, //frames por segundo
+            repeat: -1 //Num repeticiones. -1: Repite siempre. Da igual lo que pongamos porque llamamos a las animaciones constantemente
+        });
+
+        const save = this.add.sprite(300, 200, Constantes.GUARDAR.ID, 'sprite1');
+        save.anims.play(Constantes.GUARDAR.ANIMACION.MOVIMIENTO, true);//Animará una única vez ya que repeat=0 en la configuración
+        save.scaleX = 2;
+        save.scaleY = 2;
+
         //las cámaras siguen al jugador
      
         //FÍSICAS OBJETOS
