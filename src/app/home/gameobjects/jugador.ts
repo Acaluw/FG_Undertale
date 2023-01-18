@@ -36,7 +36,6 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         if (this.cursores.left.isDown) {
             console.log("Izquierda...");
             this.setVelocityX(this.velocidad * -1);
-            this.flipX = true;
             this.anims.play(Constantes.JUGADOR.ANIMACION.ANDAR_IZQUIERDA, true);
             // this.setTexture(Constantes.JUGADOR.ANIMACION.ESPERAR);
         } else if (this.cursores.right.isDown) {
@@ -46,10 +45,7 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
             this.anims.play(Constantes.JUGADOR.ANIMACION.ANDAR_DERECHA, true);
         } else if (this.cursores.down.isDown) {
             console.log("Abajo...");
-            this.setVelocityY(this.velocidad);//En imágenes el origen de Y es la parte superior de la pantalla, así que sumamos para "bajar" 
-            /*  } else if (this.cursores.up.isDown && this.body.blocked.down) { //GRAVEDAD: Solo salta si estamos en el suelo, evita el "vuelo"
-                  console.log("Arriba...");
-                  this.setVelocityY(this.velocidad*-1);*/
+            this.setVelocityY(this.velocidad);
             this.anims.play(Constantes.JUGADOR.ANIMACION.ANDAR_ABAJO, true);
         } else if (this.cursores.up.isDown) { //SIN GRAVEDAD: Solo salta si estamos en el suelo, evita el "vuelo"
             console.log("Arriba...");
