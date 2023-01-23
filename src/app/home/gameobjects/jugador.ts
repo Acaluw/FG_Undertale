@@ -20,8 +20,8 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         this.velocidad = 300;//pixels por segundo (aprox)
 
         //Correcciones de "sprite", offset y tamaño general
-        this.body.setSize(20, 30);//Se corrige tamaño de sprite
-        this.body.setOffset(0, 0);//Corrige offset de los sprites (en este caso no hay desplazamiento)
+        this.body.setSize(20, 10);//Se corrige tamaño de sprite
+        this.body.setOffset(0, 20);//Corrige offset de los sprites (en este caso no hay desplazamiento)
         this.scaleX = 2;
         this.scaleY = 2;
 
