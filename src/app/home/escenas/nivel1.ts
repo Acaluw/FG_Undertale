@@ -54,9 +54,29 @@ export default class Nivel1 extends Phaser.Scene {
             });
         });
 
-        
+        //////////////////////////////////////////////////////
+        //ANIMACION ANTAGONISTA Y AÑADIDO DE ANTAGONISTA
+        this.anims.create({
+            key: Constantes.FLOWEY.ANIMACION.BAILAR,
+            frames: this.anims.generateFrameNames(Constantes.FLOWEY.ID, {
+                start: 30,
+                prefix: "sprite", //Prefijo de los sprites
+                end: 38
+            }),
+            frameRate: 10, //frames por segundo
+            repeat: -1 //Num repeticiones. -1: Repite siempre. Da igual lo que pongamos porque llamamos a las animaciones constantemente
+        });
 
-        //Se establecen las animaciones (siempre se usa la misma plantilla)
+        
+        this.mapaNivel.findObject(Constantes.FLOWEY.ID, (d: any) =>{
+            const flowey = this.add.sprite(d.x, d.y, Constantes.FLOWEY.ID, 'sprite30');
+            flowey.anims.play(Constantes.FLOWEY.ANIMACION.BAILAR, true);//Animará una única vez ya que repeat=0 en la configuración
+            flowey.scaleX = 1;
+            flowey.scaleY = 1;
+        });
+        //////////////////////////////////////////////////////
+
+        //ANIMACIONES PERSONAJE
         this.anims.create({
             key: Constantes.JUGADOR.ANIMACION.ESPERAR,
             frames: this.anims.generateFrameNames(Constantes.JUGADOR.ID, {
@@ -112,18 +132,6 @@ export default class Nivel1 extends Phaser.Scene {
             frameRate: 5, //frames por segundo
             repeat: 2 //Num repeticiones. -1: Repite siempre. Da igual lo que pongamos porque llamamos a las animaciones constantemente
         });
-
-        //this.jugador.setGravity(0,0); //Gravedad(X,Y). Se puede configurar la gravedad por objeto,
-        //pero la gravedad general establecida en la configuración prevalece  
-
-        //Se pueden extraer sprites del ATLAS
-        /*
-        const sprite = this.add.sprite(200, 200, Constantes.JUGADOR.ID, 'sprite4');//Muestra sprite 4 del ATLAS
-        sprite.setInteractive();
-        sprite.anims.play(Constantes.JUGADOR.ANIMACION.ANDAR_IZQUIERDA, true);//Animará una única vez ya que repeat=0 en la configuración
-        sprite.scaleX = 2;
-        sprite.scaleY = 2;
-        */
 
         //MISCELANEOS
         this.anims.create({

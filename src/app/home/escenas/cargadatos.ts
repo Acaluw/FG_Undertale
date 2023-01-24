@@ -62,7 +62,8 @@ export default class CargaDatos extends Phaser.Scene {
         this.load.atlas(Constantes.GUARDAR.ID, 'assets/imagenes/miscelaneo/guardar/spritesheet.png', 'assets/imagenes/miscelaneo/guardar/spritesheet.json');
         
         
-        //Atlas Enemigo - JAWA
+        //Atlas Enemigo - FLOWEY
+        this.load.atlas(Constantes.FLOWEY.ID, 'assets/imagenes/enemigos/flowey/spritesheet.png', 'assets/imagenes/enemigos/flowey/spritesheet.json');
 
         //Atlas Enemigo - Mynock
 

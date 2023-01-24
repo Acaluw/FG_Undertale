@@ -58,13 +58,12 @@ const Constantes = {
             MOVIMIENTO: 'movimiento', 
         }
     },
-    JAWA:{
-        ID: 'jawa',//Nombre de objeto en el tileset
-        MUERTE: 'muerte',
+    FLOWEY:{
+        ID: 'flowey',//Nombre de objeto en el tileset
         ANIMACION:{
-            ESPERAR: 'esperarj', 
-            CORRER: 'correrj',
-            GOLPEAR: 'golpearj'
+            ESPERAR: 'esperarflowey', 
+            HABLAR: 'hablarflowey',
+            BAILAR: 'bailarflowey'
         }
     },
     VOLADOR:{
