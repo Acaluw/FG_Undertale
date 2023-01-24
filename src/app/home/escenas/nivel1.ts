@@ -6,9 +6,15 @@ import Miestilo from "../textos";
 export default class Nivel1 extends Phaser.Scene {
 
     public jugador!: Jugador;
-
     public ancho!: integer;
     public alto!: integer;
+
+    public mapaNivel!: Phaser.Tilemaps.Tilemap;
+
+    private mapaTileset!: Phaser.Tilemaps.Tileset;
+    private capaMapaNivel!: Phaser.Tilemaps.TilemapLayer;
+    private capasueloMapaNivel!: Phaser.Tilemaps.TilemapLayer;
+    private background!: Phaser.GameObjects.Sprite;
 
     constructor() {
         super(Constantes.ESCENAS.NIVEL1);
@@ -24,20 +30,31 @@ export default class Nivel1 extends Phaser.Scene {
         this.alto = this.sys.game.canvas.height;
 
         //Cargar Tilemap
+        this.mapaNivel = this.make.tilemap({ key: Constantes.MAPAS.NIVEL1.TILEMAPJSON, tileWidth: 32, tileHeight: 32 });//Tiene que cuadrar con lo que se puso en Tiled
+        this.physics.world.bounds.setTo(0, 0, this.mapaNivel.widthInPixels, this.mapaNivel.heightInPixels);//Límites del mundo
+        //Se añade el Tileset (conjunto de patrones  base del mapa) para poder añadir sus capas
+        this.mapaTileset = this.mapaNivel.addTilesetImage(Constantes.MAPAS.TILESET);
   
         //FONDO: IMPORTANTE - SE AÑADEN LAS CAPAS EN ORDEN: fondo, mapa, jugador
 
         //Se añade el mapa
 
         //Se añaden las capas
+        this.capasueloMapaNivel = this.mapaNivel.createLayer(Constantes.MAPAS.NIVEL1.CAPACOLISIONES, this.mapaTileset); //Crea la capa 
+        this.capasueloMapaNivel.setCollisionByExclusion([-1]);//Hacemos la capa colisionable
+        this.capaMapaNivel = this.mapaNivel.createLayer(Constantes.MAPAS.NIVEL1.CAPAMAPEADO, this.mapaTileset); //Crea la capa como no colisionable 
   
         //Se añade el jugador
-        this.jugador = new Jugador({
-            escena: this,
-            x: this.ancho/2,
-            y: this.alto/2,
-            textura: Constantes.JUGADOR.ID
+        this.mapaNivel.findObject(Constantes.JUGADOR.ID, (d: any) => {
+            this.jugador = new Jugador({
+                escena: this,
+                x: d.x,
+                y: d.y,
+                textura: Constantes.JUGADOR.ID
+            });
         });
+
+        
 
         //Se establecen las animaciones (siempre se usa la misma plantilla)
         this.anims.create({
@@ -96,15 +113,17 @@ export default class Nivel1 extends Phaser.Scene {
             repeat: 2 //Num repeticiones. -1: Repite siempre. Da igual lo que pongamos porque llamamos a las animaciones constantemente
         });
 
-        this.jugador.setGravity(0,0); //Gravedad(X,Y). Se puede configurar la gravedad por objeto,
+        //this.jugador.setGravity(0,0); //Gravedad(X,Y). Se puede configurar la gravedad por objeto,
         //pero la gravedad general establecida en la configuración prevalece  
 
         //Se pueden extraer sprites del ATLAS
+        /*
         const sprite = this.add.sprite(200, 200, Constantes.JUGADOR.ID, 'sprite4');//Muestra sprite 4 del ATLAS
         sprite.setInteractive();
         sprite.anims.play(Constantes.JUGADOR.ANIMACION.ANDAR_IZQUIERDA, true);//Animará una única vez ya que repeat=0 en la configuración
         sprite.scaleX = 2;
         sprite.scaleY = 2;
+        */
 
         //MISCELANEOS
         this.anims.create({
@@ -120,19 +139,26 @@ export default class Nivel1 extends Phaser.Scene {
 
         const save = this.add.sprite(300, 200, Constantes.GUARDAR.ID, 'sprite1');
         save.anims.play(Constantes.GUARDAR.ANIMACION.MOVIMIENTO, true);//Animará una única vez ya que repeat=0 en la configuración
-        save.scaleX = 2;
-        save.scaleY = 2;
+        save.scaleX = 1;
+        save.scaleY = 1;
+
+
+
 
         //las cámaras siguen al jugador
-     
+           //Se configura la camara. Hacemos que siga al jugador
+           this.cameras.main.setBounds(0, 0, this.mapaNivel.widthInPixels, this.mapaNivel.heightInPixels);
+           this.cameras.main.zoom=2;
+           this.cameras.main.startFollow(this.jugador);
+
+
         //FÍSICAS OBJETOS
         //Se añade la física del jugador con el nivel
+        this.physics.add.collider(this.jugador, this.capasueloMapaNivel);
 
-        console.log("Escena Nivel1 Creada");
-        this.add.text(0, 0, 'Escena Nivel1 Creada', Miestilo);
+        console.log("Zona: Ruinas");
+        this.add.text(0, 0, 'Zona: Ruinas', Miestilo);
 
-        //Vuelta al menú principal
-        this.finJuego(sprite);
     }
 
     override update() {//Se ejecuta cada x milisegundos
@@ -140,17 +166,4 @@ export default class Nivel1 extends Phaser.Scene {
         console.log("Jugador en posición x:" + this.jugador.x + " y:" + this.jugador.y);
 
     }
-
-    finJuego(letrerofin: Phaser.GameObjects.Sprite) {
-        letrerofin.on('pointerdown', () => {
-            this.vuelveMenu();
-        });
-    }
-
-    vuelveMenu() {
-        this.scene.stop(Constantes.ESCENAS.NIVEL1);
-        this.scene.start(Constantes.ESCENAS.MENU);
-    }
-
-
 }

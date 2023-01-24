@@ -17,13 +17,13 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         this.escena.physics.world.enable(this);//Activo físicas para este objeto
         this.setCollideWorldBounds(true);//Para que no se salga del mapa
         this.escena.add.existing(this);//Añade objeto a escena
-        this.velocidad = 300;//pixels por segundo (aprox)
+        this.velocidad = 150;//pixels por segundo (aprox)
 
         //Correcciones de "sprite", offset y tamaño general
         this.body.setSize(20, 10);//Se corrige tamaño de sprite
         this.body.setOffset(0, 20);//Corrige offset de los sprites (en este caso no hay desplazamiento)
-        this.scaleX = 2;
-        this.scaleY = 2;
+        this.scaleX = 1;
+        this.scaleY = 1;
 
         //Control entrada
         this.cursores = this.escena.input.keyboard.createCursorKeys();
