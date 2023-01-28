@@ -76,6 +76,28 @@ export default class Nivel1 extends Phaser.Scene {
         });
         //////////////////////////////////////////////////////
 
+        //////////////////////////////////////////////////////
+        //ANIMACION ICONO GUARDADO
+        this.anims.create({
+            key: Constantes.GUARDAR.ANIMACION.MOVIMIENTO,
+            frames: this.anims.generateFrameNames(Constantes.GUARDAR.ID, {
+                start: 1,
+                prefix: "sprite", //Prefijo de los sprites
+                end: 2
+            }),
+            frameRate: 3, //frames por segundo
+            repeat: -1 //Num repeticiones. -1: Repite siempre. Da igual lo que pongamos porque llamamos a las animaciones constantemente
+        });
+
+        this.mapaNivel.findObject(Constantes.GUARDAR.ID, (d: any) =>{
+            const save = this.add.sprite(d.x, d.y, Constantes.FLOWEY.ID, 'sprite30');
+            save.anims.play(Constantes.GUARDAR.ANIMACION.MOVIMIENTO, true);//Animará una única vez ya que repeat=0 en la configuración
+            save.scaleX = 2;
+            save.scaleY = 2;
+        });
+        //////////////////////////////////////////////////////
+
+        //////////////////////////////////////////////////////
         //ANIMACIONES PERSONAJE
         this.anims.create({
             key: Constantes.JUGADOR.ANIMACION.ESPERAR,
@@ -132,25 +154,7 @@ export default class Nivel1 extends Phaser.Scene {
             frameRate: 5, //frames por segundo
             repeat: 2 //Num repeticiones. -1: Repite siempre. Da igual lo que pongamos porque llamamos a las animaciones constantemente
         });
-
-        //MISCELANEOS
-        this.anims.create({
-            key: Constantes.GUARDAR.ANIMACION.MOVIMIENTO,
-            frames: this.anims.generateFrameNames(Constantes.GUARDAR.ID, {
-                start: 1,
-                prefix: "sprite", //Prefijo de los sprites
-                end: 2
-            }),
-            frameRate: 3, //frames por segundo
-            repeat: -1 //Num repeticiones. -1: Repite siempre. Da igual lo que pongamos porque llamamos a las animaciones constantemente
-        });
-
-        const save = this.add.sprite(300, 200, Constantes.GUARDAR.ID, 'sprite1');
-        save.anims.play(Constantes.GUARDAR.ANIMACION.MOVIMIENTO, true);//Animará una única vez ya que repeat=0 en la configuración
-        save.scaleX = 1;
-        save.scaleY = 1;
-
-
+        //////////////////////////////////////////////////////
 
 
         //las cámaras siguen al jugador
