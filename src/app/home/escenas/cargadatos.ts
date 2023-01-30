@@ -49,7 +49,7 @@ export default class CargaDatos extends Phaser.Scene {
         //CARGA DE ASSETS
        
         //Mapas
-        this.load.tilemapTiledJSON(Constantes.MAPAS.NIVEL1.TILEMAPJSON, 'assets/mapas/Principio/maparuinas.json');
+        this.load.tilemapTiledJSON(Constantes.MAPAS.NIVEL1.TILEMAPJSON, 'assets/mapas/Principio/maparuinasv2.json');
         this.load.image(Constantes.MAPAS.TILESET, 'assets/mapas/Principio/maparuinas.png');
 
         //Fondos e imágenes
