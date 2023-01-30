@@ -90,10 +90,10 @@ export default class Nivel1 extends Phaser.Scene {
         });
 
         this.mapaNivel.findObject(Constantes.GUARDAR.ID, (d: any) =>{
-            const save = this.add.sprite(d.x, d.y, Constantes.FLOWEY.ID, 'sprite30');
+            const save = this.add.sprite(d.x, d.y, Constantes.GUARDAR.ID, 'sprite1');
             save.anims.play(Constantes.GUARDAR.ANIMACION.MOVIMIENTO, true);//Animará una única vez ya que repeat=0 en la configuración
-            save.scaleX = 2;
-            save.scaleY = 2;
+            save.scaleX = 1;
+            save.scaleY = 1;
         });
         //////////////////////////////////////////////////////
 
