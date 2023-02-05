@@ -1,7 +1,7 @@
 # FG_Undertale
 ------
 
-Proyecto realizado en TypeScript para recrear el videojuego 'Undertale'
+Proyecto realizado en TypeScript para recrear el videojuego 'Undertale' usando Ionic
 
 
 ## PARTICIPANTES
