@@ -1,5 +1,6 @@
 import Constantes from "../constantes";
 import Jugador from '../gameobjects/jugador';
+import Puertas from "../gameobjects/puertas";
 import Miestilo from "../textos";
 
 
@@ -15,6 +16,11 @@ export default class Nivel1 extends Phaser.Scene {
     private capaMapaNivel!: Phaser.Tilemaps.TilemapLayer;
     private capasueloMapaNivel!: Phaser.Tilemaps.TilemapLayer;
     private background!: Phaser.GameObjects.Sprite;
+
+    private d001in!: Puertas;
+    private d001out!: Puertas;
+
+    public coordsPuertas: String[][]=[[],[]];
 
     constructor() {
         super(Constantes.ESCENAS.NIVEL1);
@@ -43,7 +49,27 @@ export default class Nivel1 extends Phaser.Scene {
         this.capasueloMapaNivel = this.mapaNivel.createLayer(Constantes.MAPAS.NIVEL1.CAPACOLISIONES, this.mapaTileset); //Crea la capa 
         this.capasueloMapaNivel.setCollisionByExclusion([-1]);//Hacemos la capa colisionable
         this.capaMapaNivel = this.mapaNivel.createLayer(Constantes.MAPAS.NIVEL1.CAPAMAPEADO, this.mapaTileset); //Crea la capa como no colisionable 
-  
+
+        this.d001in = new Puertas(this, Constantes.MAPAS.NIVEL1.DOOR01IN, Constantes.PUERTAS.ID001IN);
+        this.d001out = new Puertas(this, Constantes.MAPAS.NIVEL1.DOOR01OUT, Constantes.PUERTAS.ID001OUT);
+        this.physics.add.collider(this.d001in, this.capaMapaNivel);
+        this.physics.add.overlap(this.jugador, this.d001in, this.jugador.pasaPuerta as ArcadePhysicsCallback, undefined, this);
+
+        //////////////////////////////////////////////////////
+        //SE AÑADEN LAS POSICIONES DE LAS PUERTAS
+        this.mapaNivel.findObject(Constantes.PUERTAS.ID001IN, (d: any) => {
+            this.coordsPuertas[0][0]=Constantes.PUERTAS.ID001IN;
+            this.coordsPuertas[0][1]=d.x;
+            this.coordsPuertas[0][2]=d.y;
+        });
+
+        this.mapaNivel.findObject(Constantes.PUERTAS.ID001OUT, (d: any) => {
+            this.coordsPuertas[1][0]=Constantes.PUERTAS.ID001OUT;
+            this.coordsPuertas[1][1]=d.x;
+            this.coordsPuertas[1][2]=d.y;
+        });
+        //////////////////////////////////////////////////////
+
         //Se añade el jugador
         this.mapaNivel.findObject(Constantes.JUGADOR.ID, (d: any) => {
             this.jugador = new Jugador({

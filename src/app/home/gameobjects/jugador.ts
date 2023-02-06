@@ -34,28 +34,33 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
     override update() {
         //Control de Movimiento. Teclas excluyentes. 
         if (this.cursores.left.isDown) {
-            console.log("Izquierda...");
+            //console.log("Izquierda...");
             this.setVelocityX(this.velocidad * -1);
             this.anims.play(Constantes.JUGADOR.ANIMACION.ANDAR_IZQUIERDA, true);
             // this.setTexture(Constantes.JUGADOR.ANIMACION.ESPERAR);
         } else if (this.cursores.right.isDown) {
-            console.log("Derecha...");
+            //console.log("Derecha...");
             this.setVelocityX(this.velocidad);
             this.flipX = false;
             this.anims.play(Constantes.JUGADOR.ANIMACION.ANDAR_DERECHA, true);
         } else if (this.cursores.down.isDown) {
-            console.log("Abajo...");
+            //console.log("Abajo...");
             this.setVelocityY(this.velocidad);
             this.anims.play(Constantes.JUGADOR.ANIMACION.ANDAR_ABAJO, true);
         } else if (this.cursores.up.isDown) { //SIN GRAVEDAD: Solo salta si estamos en el suelo, evita el "vuelo"
-            console.log("Arriba...");
+            //console.log("Arriba...");
             this.setVelocityY(this.velocidad * -1);//Restamos Y para "subir"
             this.anims.play(Constantes.JUGADOR.ANIMACION.ANDAR_ARRIBA, true);
         } else { //Esta parte es importante para que frene el movimiento si no pulsamos nada
-            console.log("Esperando...");
+            //console.log("Esperando...");
             this.setVelocityX(0);
             this.setVelocityY(0); // SIN GRAVEDAD: SI NO QUEREMOS gravedad hay que descomentar esta línea
             this.anims.play(Constantes.JUGADOR.ANIMACION.ESPERAR, true);
         }
+    }
+
+    public pasaPuerta(jugador: Jugador, objeto: Phaser.Physics.Arcade.Sprite): void {
+        
+        console.log(objeto.getData.name);
     }
 }

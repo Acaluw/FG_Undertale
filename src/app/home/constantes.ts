@@ -28,9 +28,14 @@ const Constantes = {
             TILEMAPJSON: 'mitilemapjson',
             CAPAMAPEADO: 'capamapeado', //Nombre de capa en JSON
             CAPACOLISIONES: 'capacolisiones',
-            
+            DOOR01IN: '001in',
+            DOOR01OUT: '001out'
         },
         TILESET:'maparuinas' //Nombre del tileset en JSON
+    },
+    PUERTAS:{
+        ID001IN: '001in',
+        ID001OUT: '001out',
     },
     FONDOS:{
         NIVEL1: 'Arena',
@@ -38,7 +43,6 @@ const Constantes = {
     }, 
     FUENTES:{
         NOMBREFUENTE: 'fuentePixel'//id interno
-
     },
     JUGADOR:{
         ID: 'jugador',//Nombre de objeto en el tileset
@@ -64,12 +68,6 @@ const Constantes = {
             ESPERAR: 'esperarflowey', 
             HABLAR: 'hablarflowey',
             BAILAR: 'bailarflowey'
-        }
-    },
-    VOLADOR:{
-        ID: 'mynock',
-        ANIMACION:{
-            VOLAR: 'volar'
         }
     },
     BESKAR:{
