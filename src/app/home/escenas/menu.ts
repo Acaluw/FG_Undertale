@@ -21,6 +21,9 @@ export default class Menu extends Phaser.Scene {
 
         this.cambiarEscena(background, Constantes.ESCENAS.NIVEL1);//Se podría haber puesto el fondo interactivo para clickar y entrar en el juego
         console.log("Escena Menú Creada");
+
+
+    
     }
 
     override update() {//Se ejecuta cada x milisegundos

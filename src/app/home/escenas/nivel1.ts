@@ -73,6 +73,15 @@ export default class Nivel1 extends Phaser.Scene {
             });
         });
 
+        //SONIDOS
+        //MUSICA
+        var musica = this.sound.add('musica',{volume: 2});//Volumen al 200%
+        
+        musica.play({
+            loop: true
+        });
+
+
         var capaObjetos = this.mapaNivel.getObjectLayer('puertas');
         // Recorre los objetos de la capa
           
@@ -83,6 +92,7 @@ export default class Nivel1 extends Phaser.Scene {
           this.datosPuertas[objeto.name] = {x: objeto.x, y:objeto.y, salida:'---'};
         });
         this.datosPuertas['001'].salida = '001out';
+        loop:false;
         this.datosPuertas['001out'].salida = '001';
         this.datosPuertas['002in'].salida = '002out';
         this.datosPuertas['002out'].salida = '002in';
@@ -216,6 +226,10 @@ export default class Nivel1 extends Phaser.Scene {
 
         console.log("Zona: Ruinas");
         this.add.text(0, 0, 'Zona: Ruinas', Miestilo);
+
+
+       
+    
 
     }
 

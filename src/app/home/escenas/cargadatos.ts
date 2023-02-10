@@ -66,7 +66,10 @@ export default class CargaDatos extends Phaser.Scene {
         this.load.atlas(Constantes.FLOWEY.ID, 'assets/imagenes/enemigos/flowey/spritesheet.png', 'assets/imagenes/enemigos/flowey/spritesheet.json');
 
         //Atlas Enemigo - Mynock
-
+        
+        //Carga de sonidos
+        this.load.audio('musica', 'assets/audio/musica/ruinas.mp3');
+        this.load.audio('menunusic', 'assets/audio/musica/menu.mp3');
 
     }
     private creaBarras(): void {
@@ -81,5 +84,9 @@ export default class CargaDatos extends Phaser.Scene {
             20 //alto
         );
     }
+
+    
+        
+
 
 }

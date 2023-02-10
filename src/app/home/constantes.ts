@@ -85,7 +85,10 @@ const Constantes = {
         AY: 'ay',
         MONEY: 'money',
         INTRO: 'intro',
-        DUNAS: 'dunas'
+        DUNAS: 'dunas',
+        MUSICA: 'musica',
+        MENUMUSIC: 'menumusic',
+        BALAS: 'balas',
     },
     CONTROLES:{
         ID: 'ControlGamepad',
