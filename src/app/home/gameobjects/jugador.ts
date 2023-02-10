@@ -10,6 +10,8 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
     private escena: Nivel1;//para que coja las propiedades públicas
     private velocidad: number;
 
+    private tiempoEntrePuertas!: boolean;
+
     constructor(config: any) { //se le pasa escena para utilizar los objetos que contiene
         super(config.escena, config.x, config.y, config.texture);
 
@@ -60,7 +62,26 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
     }
 
     public pasaPuerta(jugador: Jugador, objeto: Phaser.Physics.Arcade.Sprite): void {
-        
-        console.log(objeto.getData.name);
+        const siguientePuerta = jugador.escena.datosPuertas[objeto.name].salida;
+        const posX = jugador.escena.datosPuertas[''+siguientePuerta].x!;
+        const posY = jugador.escena.datosPuertas[''+siguientePuerta].y!;
+
+        jugador.escena.jugador.x = posX;
+        if(siguientePuerta=="001" || siguientePuerta=="002in" || siguientePuerta=="004in" || siguientePuerta=="005in" || siguientePuerta=="007in"){
+            jugador.escena.jugador.y = posY+20;
+        }else if(siguientePuerta=="003out"){
+            jugador.escena.jugador.y = posY-40;
+        }else if(siguientePuerta=="003in"){
+            jugador.escena.jugador.y = posY+80;
+        }else if(siguientePuerta=="006out"){
+            jugador.escena.jugador.x = posX+30;
+            jugador.escena.jugador.y = posY;
+        }else if(siguientePuerta=="006in"){
+            jugador.escena.jugador.x = posX-30;
+            jugador.escena.jugador.y = posY;
+        }
+        else{
+            jugador.escena.jugador.y = posY-30;
+        }
     }
 }

@@ -34,8 +34,12 @@ const Constantes = {
         TILESET:'maparuinas' //Nombre del tileset en JSON
     },
     PUERTAS:{
-        ID001IN: '001in',
-        ID001OUT: '001out',
+        PUERTA1:{
+            ID: '001in'
+        },
+        PUERTA2:{
+            ID: '001out'
+        }
     },
     FONDOS:{
         NIVEL1: 'Arena',

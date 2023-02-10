@@ -3,8 +3,14 @@ import Jugador from '../gameobjects/jugador';
 import Puertas from "../gameobjects/puertas";
 import Miestilo from "../textos";
 
+interface Datos {
+    x: number | undefined;
+    y: number | undefined;
+    salida: String;
+  }
 
 export default class Nivel1 extends Phaser.Scene {
+
 
     public jugador!: Jugador;
     public ancho!: integer;
@@ -17,10 +23,17 @@ export default class Nivel1 extends Phaser.Scene {
     private capasueloMapaNivel!: Phaser.Tilemaps.TilemapLayer;
     private background!: Phaser.GameObjects.Sprite;
 
-    private d001in!: Puertas;
-    private d001out!: Puertas;
 
-    public coordsPuertas: String[][]=[[],[]];
+    //private d001in!: Puertas;
+    //private d001out!: Puertas;
+    puertas!: Puertas;
+    //public datosPuertas: undefined;
+
+      
+    public datosPuertas: { [key: string]: Datos } = {};
+
+
+   // public coordsPuertas: String[][]=[[],[]];
 
     constructor() {
         super(Constantes.ESCENAS.NIVEL1);
@@ -50,26 +63,6 @@ export default class Nivel1 extends Phaser.Scene {
         this.capasueloMapaNivel.setCollisionByExclusion([-1]);//Hacemos la capa colisionable
         this.capaMapaNivel = this.mapaNivel.createLayer(Constantes.MAPAS.NIVEL1.CAPAMAPEADO, this.mapaTileset); //Crea la capa como no colisionable 
 
-        this.d001in = new Puertas(this, Constantes.MAPAS.NIVEL1.DOOR01IN, Constantes.PUERTAS.ID001IN);
-        this.d001out = new Puertas(this, Constantes.MAPAS.NIVEL1.DOOR01OUT, Constantes.PUERTAS.ID001OUT);
-        this.physics.add.collider(this.d001in, this.capaMapaNivel);
-        this.physics.add.overlap(this.jugador, this.d001in, this.jugador.pasaPuerta as ArcadePhysicsCallback, undefined, this);
-
-        //////////////////////////////////////////////////////
-        //SE AÑADEN LAS POSICIONES DE LAS PUERTAS
-        this.mapaNivel.findObject(Constantes.PUERTAS.ID001IN, (d: any) => {
-            this.coordsPuertas[0][0]=Constantes.PUERTAS.ID001IN;
-            this.coordsPuertas[0][1]=d.x;
-            this.coordsPuertas[0][2]=d.y;
-        });
-
-        this.mapaNivel.findObject(Constantes.PUERTAS.ID001OUT, (d: any) => {
-            this.coordsPuertas[1][0]=Constantes.PUERTAS.ID001OUT;
-            this.coordsPuertas[1][1]=d.x;
-            this.coordsPuertas[1][2]=d.y;
-        });
-        //////////////////////////////////////////////////////
-
         //Se añade el jugador
         this.mapaNivel.findObject(Constantes.JUGADOR.ID, (d: any) => {
             this.jugador = new Jugador({
@@ -80,7 +73,34 @@ export default class Nivel1 extends Phaser.Scene {
             });
         });
 
-        //////////////////////////////////////////////////////
+        var capaObjetos = this.mapaNivel.getObjectLayer('puertas');
+        // Recorre los objetos de la capa
+          
+        capaObjetos.objects.forEach( (objeto) => {
+          console.log("nombre:", objeto.name);
+          console.log("X:", objeto.x);
+          console.log("Y:", objeto.y);
+          this.datosPuertas[objeto.name] = {x: objeto.x, y:objeto.y, salida:'---'};
+        });
+        this.datosPuertas['001'].salida = '001out';
+        this.datosPuertas['001out'].salida = '001';
+        this.datosPuertas['002in'].salida = '002out';
+        this.datosPuertas['002out'].salida = '002in';
+        this.datosPuertas['003in'].salida = '003out';
+        this.datosPuertas['003out'].salida = '003in';
+        this.datosPuertas['004in'].salida = '004out';
+        this.datosPuertas['004out'].salida = '004in';
+        this.datosPuertas['005in'].salida = '005out';
+        this.datosPuertas['005out'].salida = '005in';
+        this.datosPuertas['006in'].salida = '006out';
+        this.datosPuertas['006out'].salida = '006in';
+        this.datosPuertas['007'].salida = '007in';
+        this.datosPuertas['007in'].salida = '007';
+        //....Resto de salidas      
+
+        this.puertas = new Puertas(this, 'puertas');
+        this.physics.add.overlap(this.jugador, this.puertas, this.jugador.pasaPuerta as ArcadePhysicsCallback, undefined, this);
+
         //ANIMACION ANTAGONISTA Y AÑADIDO DE ANTAGONISTA
         this.anims.create({
             key: Constantes.FLOWEY.ANIMACION.BAILAR,
@@ -201,7 +221,8 @@ export default class Nivel1 extends Phaser.Scene {
 
     override update() {//Se ejecuta cada x milisegundos
         this.jugador.update();//Se tiene que llamar al update de cada elemento
-        console.log("Jugador en posición x:" + this.jugador.x + " y:" + this.jugador.y);
+        //console.log("Jugador en posición x:" + this.jugador.x + " y:" + this.jugador.y);
 
     }
+
 }
