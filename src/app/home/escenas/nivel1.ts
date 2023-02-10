@@ -75,7 +75,7 @@ export default class Nivel1 extends Phaser.Scene {
 
         //SONIDOS
         //MUSICA
-        var musica = this.sound.add('musica',{volume: 2});//Volumen al 200%
+        var musica = this.sound.add('musica',{volume: 0.2});
         
         musica.play({
             loop: true
@@ -92,7 +92,6 @@ export default class Nivel1 extends Phaser.Scene {
           this.datosPuertas[objeto.name] = {x: objeto.x, y:objeto.y, salida:'---'};
         });
         this.datosPuertas['001'].salida = '001out';
-        loop:false;
         this.datosPuertas['001out'].salida = '001';
         this.datosPuertas['002in'].salida = '002out';
         this.datosPuertas['002out'].salida = '002in';
