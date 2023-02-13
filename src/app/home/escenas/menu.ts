@@ -22,7 +22,12 @@ export default class Menu extends Phaser.Scene {
         this.cambiarEscena(background, Constantes.ESCENAS.NIVEL1);//Se podría haber puesto el fondo interactivo para clickar y entrar en el juego
         console.log("Escena Menú Creada");
 
-
+        //MUSICA
+        var menumusica = this.sound.add('menunusic',{volume: 0.2});
+        
+        menumusica.play({
+            loop: true
+        });
     
     }
 
