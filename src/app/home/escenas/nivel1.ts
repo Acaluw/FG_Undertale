@@ -25,6 +25,9 @@ export default class Nivel1 extends Phaser.Scene {
     private capasueloMapaNivel!: Phaser.Tilemaps.TilemapLayer;
     private background!: Phaser.GameObjects.Sprite;
     private flowey!: Phaser.GameObjects.Sprite;
+    private laser: any;
+   
+   
 
 
     //private d001in!: Puertas;
@@ -45,6 +48,7 @@ export default class Nivel1 extends Phaser.Scene {
     preload() //Ejecuta una única vez la precarga de los assets
     {
         this.load.image('bala', './assets/imagenes/tear.png');
+        
     }
 
     create() //Crea escena
@@ -93,7 +97,7 @@ export default class Nivel1 extends Phaser.Scene {
         //SONIDOS
         //MUSICA
         var musica = this.sound.add('musica',{volume: 0.2});
-        
+        this.laser = this.sound.add('laser', {volume: 0.25});//Volumen al 25%
         musica.play({
             loop: true
         });
@@ -267,6 +271,7 @@ export default class Nivel1 extends Phaser.Scene {
             this.lastFirede = time + 500; //Tiempo entre balas
             var bala = this.balase.get();//Coge del pool
             if (bala) {
+                this.laser.play();
                 bala.fire(this.flowey.x, this.flowey.y, 1);//Dispara hacia arriba
             }
         }

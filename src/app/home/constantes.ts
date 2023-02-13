@@ -88,7 +88,7 @@ const Constantes = {
         DUNAS: 'dunas',
         MUSICA: 'musica',
         MENUMUSIC: 'menumusic',
-        BALAS: 'balas',
+        BALAS: 'laser',
     },
     CONTROLES:{
         ID: 'ControlGamepad',

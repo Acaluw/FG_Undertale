@@ -70,7 +70,7 @@ export default class CargaDatos extends Phaser.Scene {
         //Carga de sonidos
         this.load.audio('musica', 'assets/audio/musica/ruinas.mp3');
         this.load.audio('menunusic', 'assets/audio/musica/menu.mp3');
-
+        this.load.audio('laser', 'assets/audio/musica/laser.mp3');
     }
     private creaBarras(): void {
         this.barraC = this.add.graphics();
