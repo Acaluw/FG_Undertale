@@ -64,6 +64,8 @@ export default class Nivel1 extends Phaser.Scene {
         this.ancho = this.sys.game.canvas.width;
         this.alto = this.sys.game.canvas.height;
 
+        this.cameras.main.fadeIn(1000, 0, 0, 0)
+
         //Cargar Tilemap
         this.mapaNivel = this.make.tilemap({ key: Constantes.MAPAS.NIVEL1.TILEMAPJSON, tileWidth: 32, tileHeight: 32 });//Tiene que cuadrar con lo que se puso en Tiled
         this.physics.world.bounds.setTo(0, 0, this.mapaNivel.widthInPixels, this.mapaNivel.heightInPixels);//Límites del mundo
@@ -125,8 +127,7 @@ export default class Nivel1 extends Phaser.Scene {
         this.datosPuertas['006in'].salida = '006out';
         this.datosPuertas['006out'].salida = '006in';
         this.datosPuertas['007'].salida = '007in';
-        this.datosPuertas['007in'].salida = '007';
-        //....Resto de salidas      
+        this.datosPuertas['007in'].salida = '007';  
 
         this.puertas = new Puertas(this, 'puertas');
         this.physics.add.overlap(this.jugador, this.puertas, this.jugador.pasaPuerta as ArcadePhysicsCallback, undefined, this);

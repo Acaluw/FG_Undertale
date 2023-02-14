@@ -62,6 +62,7 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
     }
 
     public pasaPuerta(jugador: Jugador, objeto: Phaser.Physics.Arcade.Sprite): void {
+        jugador.escena.cameras.main.fadeOut(1000, 0, 0, 0)
         const siguientePuerta = jugador.escena.datosPuertas[objeto.name].salida;
         const posX = jugador.escena.datosPuertas[''+siguientePuerta].x!;
         const posY = jugador.escena.datosPuertas[''+siguientePuerta].y!;
@@ -83,5 +84,7 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         else{
             jugador.escena.jugador.y = posY-30;
         }
+
+        jugador.escena.cameras.main.fadeIn(1000, 0, 0, 0)
     }
 }

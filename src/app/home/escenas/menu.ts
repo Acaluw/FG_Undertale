@@ -36,9 +36,14 @@ export default class Menu extends Phaser.Scene {
 
     cambiarEscena(titulo: any, escena: string) {
         titulo.on('pointerdown', () => {
+            this.cameras.main.fadeOut(1000, 0, 0, 0)
             this.sound.stopAll();
-            this.scene.start(escena);
-        });
+            this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam: any, effect: any) => {
+                this.time.delayedCall(1000, () => {
+                    this.scene.start(escena);
+                })
+            })            
+        });   
     }
 
 
