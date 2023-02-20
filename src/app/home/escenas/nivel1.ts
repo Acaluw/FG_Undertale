@@ -27,6 +27,7 @@ export default class Nivel1 extends Phaser.Scene {
     private flowey!: Phaser.GameObjects.Sprite;
     private laser: any;
    
+ 
    
 
 
