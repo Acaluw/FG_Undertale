@@ -7,6 +7,7 @@ export class Bala extends Phaser.GameObjects.Image {
         super(escena, 0, 0, 'bala', 0);
         this.escena=escena;
         this.veloc = Phaser.Math.GetSpeed(100, 1);//200px  
+        this.setScale(0.5)
     }
 
     fire(x: number, y: number, direccion: number) {
@@ -19,7 +20,7 @@ export class Bala extends Phaser.GameObjects.Image {
         let avance = this.veloc * delta;
         avance *= this.direc;
         this.y -= avance;
-        if (!this.escena.cameras.main.worldView.contains(this.x+100, this.y+100))
+        if (!this.escena.cameras.main.worldView.contains(this.x, this.y))
             this.destroy(); 
     };
 
