@@ -64,25 +64,23 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
     public pasaPuerta(jugador: Jugador, objeto: Phaser.Physics.Arcade.Sprite): void {
         jugador.escena.cameras.main.fadeOut(1000, 0, 0, 0)
         const siguientePuerta = jugador.escena.datosPuertas[objeto.name].salida;
+        const direccionSalida = jugador.escena.datosPuertas[objeto.name].direccion;
+
         const posX = jugador.escena.datosPuertas[''+siguientePuerta].x!;
         const posY = jugador.escena.datosPuertas[''+siguientePuerta].y!;
 
-        jugador.escena.jugador.x = posX;
-        if(siguientePuerta=="001" || siguientePuerta=="002in" || siguientePuerta=="004in" || siguientePuerta=="005in" || siguientePuerta=="007in"){
-            jugador.escena.jugador.y = posY+20;
-        }else if(siguientePuerta=="003out"){
-            jugador.escena.jugador.y = posY-40;
-        }else if(siguientePuerta=="003in"){
-            jugador.escena.jugador.y = posY+80;
-        }else if(siguientePuerta=="006out"){
+        if (direccionSalida == 'up') {
+            jugador.escena.jugador.x = posX;
+            jugador.escena.jugador.y = posY-30;
+        } else if (direccionSalida == 'down') {
+            jugador.escena.jugador.x = posX;
+            jugador.escena.jugador.y = posY+10;
+        } else if (direccionSalida == 'right') {
             jugador.escena.jugador.x = posX+30;
             jugador.escena.jugador.y = posY;
-        }else if(siguientePuerta=="006in"){
+        } else if (direccionSalida == 'left') {
             jugador.escena.jugador.x = posX-30;
             jugador.escena.jugador.y = posY;
-        }
-        else{
-            jugador.escena.jugador.y = posY-30;
         }
 
         jugador.escena.cameras.main.fadeIn(1000, 0, 0, 0)

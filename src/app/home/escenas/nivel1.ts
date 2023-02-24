@@ -7,6 +7,7 @@ interface Datos {
     x: number | undefined;
     y: number | undefined;
     salida: String;
+    direccion: String;
   }
 
 export default class Nivel1 extends Phaser.Scene {
@@ -27,20 +28,12 @@ export default class Nivel1 extends Phaser.Scene {
     private flowey!: Phaser.GameObjects.Sprite;
     private laser: any;
    
- 
    
-
-
-    //private d001in!: Puertas;
-    //private d001out!: Puertas;
     puertas!: Puertas;
-    //public datosPuertas: undefined;
 
       
     public datosPuertas: { [key: string]: Datos } = {};
 
-
-   // public coordsPuertas: String[][]=[[],[]];
 
     constructor() {
         super(Constantes.ESCENAS.NIVEL1);
@@ -113,8 +106,10 @@ export default class Nivel1 extends Phaser.Scene {
           console.log("nombre:", objeto.name);
           console.log("X:", objeto.x);
           console.log("Y:", objeto.y);
-          this.datosPuertas[objeto.name] = {x: objeto.x, y:objeto.y, salida:'---'};
+          this.datosPuertas[objeto.name] = {x: objeto.x, y:objeto.y, salida:'---', direccion:'-'};
         });
+
+        // Carga datos de puertas
         this.datosPuertas['001'].salida = '001out';
         this.datosPuertas['001out'].salida = '001';
         this.datosPuertas['002in'].salida = '002out';
@@ -128,7 +123,23 @@ export default class Nivel1 extends Phaser.Scene {
         this.datosPuertas['006in'].salida = '006out';
         this.datosPuertas['006out'].salida = '006in';
         this.datosPuertas['007'].salida = '007in';
-        this.datosPuertas['007in'].salida = '007';  
+        this.datosPuertas['007in'].salida = '007';
+        
+        // Carga datos direccion de puertas
+        this.datosPuertas['001'].direccion = 'up';
+        this.datosPuertas['001out'].direccion = 'down';
+        this.datosPuertas['002in'].direccion = 'up';
+        this.datosPuertas['002out'].direccion = 'down';
+        this.datosPuertas['003in'].direccion = 'up';
+        this.datosPuertas['003out'].direccion = 'down';
+        this.datosPuertas['004in'].direccion = 'up';
+        this.datosPuertas['004out'].direccion = 'down';
+        this.datosPuertas['005in'].direccion = 'up';
+        this.datosPuertas['005out'].direccion = 'down';
+        this.datosPuertas['006in'].direccion = 'right';
+        this.datosPuertas['006out'].direccion = 'left';
+        this.datosPuertas['007in'].direccion = 'up';
+        this.datosPuertas['007'].direccion = 'down';
 
         this.puertas = new Puertas(this, 'puertas');
         this.physics.add.overlap(this.jugador, this.puertas, this.jugador.pasaPuerta as ArcadePhysicsCallback, undefined, this);
@@ -267,7 +278,6 @@ export default class Nivel1 extends Phaser.Scene {
 
     override update(time: any, delta: number) {//Se ejecuta cada x milisegundos
         this.jugador.update();//Se tiene que llamar al update de cada elemento
-        //console.log("Jugador en posición x:" + this.jugador.x + " y:" + this.jugador.y);
 
         if (time > this.lastFirede) {
             this.lastFirede = time + 500; //Tiempo entre balas
