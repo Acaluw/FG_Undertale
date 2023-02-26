@@ -2,7 +2,7 @@ import Constantes from "../constantes";
 import Jugador from '../gameobjects/jugador';
 import Puertas from "../gameobjects/puertas";
 import Miestilo from "../textos";
-import {Bala} from "../bala"
+import {Bala} from "../gameobjects/bala"
 interface Datos {
     x: number | undefined;
     y: number | undefined;
