@@ -35,6 +35,9 @@ export default class Nivel1 extends Phaser.Scene {
     public datosPuertas: { [key: string]: Datos } = {};
 
 
+    public puntuacion!: number;
+    public vidas!: number;
+
     constructor() {
         super(Constantes.ESCENAS.NIVEL1);
     }
@@ -263,6 +266,17 @@ export default class Nivel1 extends Phaser.Scene {
 
         this.physics.add.collider(this.jugador, this.balase, this.colision as ArcadePhysicsCallback, undefined, this);
        
+
+        //Se inicializan datos del juego y que variarán según eventos
+        this.puntuacion = 0;
+        this.vidas = 5;
+        
+
+        //Inicialización del HUD
+        this.registry.set(Constantes.REGISTRO.PUNTUACION, this.puntuacion);
+        this.events.emit(Constantes.EVENTOS.PUNTUACION);
+        this.registry.set(Constantes.REGISTRO.VIDAS, this.vidas);
+        this.events.emit(Constantes.EVENTOS.VIDAS);
 
     }
     colision(jugador: Phaser.Physics.Arcade.Sprite, enemigo: Phaser.Physics.Arcade.Sprite): void {

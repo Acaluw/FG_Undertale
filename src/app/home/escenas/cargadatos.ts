@@ -56,7 +56,7 @@ export default class CargaDatos extends Phaser.Scene {
         this.load.image(Constantes.FONDOS.LOGO, 'assets/imagenes/menulogo.png');
 
         //Fuente
-
+        this.load.bitmapFont(Constantes.FUENTES.NOMBREFUENTE, 'assets/fuentes/atari-sunset.png', 'assets/fuentes/atari-sunset.xml');
         //Atlas Jugador
         this.load.atlas(Constantes.JUGADOR.ID, 'assets/imagenes/jugador/spritesheet.png', 'assets/imagenes/jugador/spritesheet.json');
         this.load.atlas(Constantes.GUARDAR.ID, 'assets/imagenes/miscelaneo/guardar/spritesheet.png', 'assets/imagenes/miscelaneo/guardar/spritesheet.json');

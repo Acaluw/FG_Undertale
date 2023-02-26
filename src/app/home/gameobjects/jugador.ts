@@ -84,5 +84,15 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         }
 
         jugador.escena.cameras.main.fadeIn(1000, 0, 0, 0)
+    
+  
+        jugador.escena.registry.set(Constantes.REGISTRO.VIDAS, jugador.escena.vidas);
+        jugador.escena.events.emit(Constantes.EVENTOS.VIDAS);
+
+
+        jugador.escena.registry.set(Constantes.REGISTRO.PUNTUACION, jugador.escena.puntuacion);
+        jugador.escena.events.emit(Constantes.EVENTOS.PUNTUACION);
+        
+
     }
 }
