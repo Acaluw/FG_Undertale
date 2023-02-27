@@ -357,8 +357,11 @@ export default class Nivel1 extends Phaser.Scene {
             this.lastFirede = time + 500; //Tiempo entre balas
             var bala = this.balase.get();//Coge del pool
             if (bala) {
-                this.laser.play();
-                bala.fire(this.flowey.x, this.flowey.y, 1);//Dispara hacia arriba
+                
+                if(Math.abs(this.flowey.y - this.jugador.y) <= 200 ){
+                    this.laser.play();
+                    bala.fire(this.flowey.x, this.flowey.y, 1);//Dispara hacia arriba
+                }
             }
         }
         
