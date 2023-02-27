@@ -319,12 +319,16 @@ export default class Nivel1 extends Phaser.Scene {
         //FÍSICAS OBJETOS
         //Se añade la física del jugador con el nivel
         this.physics.add.collider(this.jugador, this.capasueloMapaNivel);
-
-        console.log("Zona: Ruinas");
-        this.add.text(0, 0, 'Zona: Ruinas', Miestilo);
-
-
+        
+        //Visualizar la hitbox del enemigo
+        this.physics.world.enable(this.enemigo01);
+        this.physics.world.enable(this.enemigo02);
+        this.physics.world.enable(this.enemigo03);
+        
         this.physics.add.collider(this.jugador, this.balase, this.colision as ArcadePhysicsCallback, undefined, this);
+        this.physics.add.collider(this.jugador, this.enemigo01, this.colisionEnemigo as ArcadePhysicsCallback, undefined, this);
+        this.physics.add.collider(this.jugador, this.enemigo02, this.colisionEnemigo as ArcadePhysicsCallback, undefined, this);
+        this.physics.add.collider(this.jugador, this.enemigo03, this.colisionEnemigo as ArcadePhysicsCallback, undefined, this);
        
 
         //Se inicializan datos del juego y que variarán según eventos
@@ -340,7 +344,6 @@ export default class Nivel1 extends Phaser.Scene {
 
     }
     colision(jugador: Phaser.Physics.Arcade.Sprite, enemigo: Phaser.Physics.Arcade.Sprite): void {
-        this.info2.setText(['COLISION!!!']);
         enemigo.destroy();//destruye la bala y vuelve al pool
         this.time.addEvent({
             delay: 1000,
@@ -348,6 +351,9 @@ export default class Nivel1 extends Phaser.Scene {
                 this.info2.setText(['']);
             }
         });
+    }
+    colisionEnemigo(jugador: Phaser.Physics.Arcade.Sprite, enemigo: Phaser.Physics.Arcade.Sprite): void {
+        enemigo.destroy();
     }
 
     override update(time: any, delta: number) {//Se ejecuta cada x milisegundos
@@ -364,13 +370,6 @@ export default class Nivel1 extends Phaser.Scene {
                 }
             }
         }
-        
-        this.info.setText([
-            'TIEMPO DE JUEGO (ms): ' + time,
-            'DELTA: ' + Math.round(delta),
-            'UtilizadasEnemigo (POOL): ' + this.balase.getTotalUsed(),
-            'LibresEnemigo (POOL): ' + this.balase.getTotalFree()
-        ]); 
     }
 
 }
