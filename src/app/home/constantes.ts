@@ -74,10 +74,23 @@ const Constantes = {
             BAILAR: 'bailarflowey'
         }
     },
-    BESKAR:{
-        ID: 'beskar',
-        IMAGEN: 'beskar2png',
-        IMAGENHUD: 'beskarpng'
+    ENEMIGO01:{
+        ID: 'enemigo01',
+        ANIMACION:{
+            GESTOS: 'gesto01'
+        }
+    },
+    ENEMIGO02:{
+        ID: 'enemigo02',
+        ANIMACION:{
+            GESTOS: 'gesto02'
+        }
+    },
+    ENEMIGO03:{
+        ID: 'enemigo03',
+        ANIMACION:{
+            GESTOS: 'gesto03'
+        }
     },  
     SONIDOS:{
         JAWAATAQUE: 'utinni',

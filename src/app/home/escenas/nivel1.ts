@@ -26,6 +26,9 @@ export default class Nivel1 extends Phaser.Scene {
     private capasueloMapaNivel!: Phaser.Tilemaps.TilemapLayer;
     private background!: Phaser.GameObjects.Sprite;
     private flowey!: Phaser.GameObjects.Sprite;
+    private enemigo01!: Phaser.GameObjects.Sprite;
+    private enemigo02!: Phaser.GameObjects.Sprite;
+    private enemigo03!: Phaser.GameObjects.Sprite;
     private laser: any;
    
    
@@ -147,7 +150,7 @@ export default class Nivel1 extends Phaser.Scene {
         this.puertas = new Puertas(this, 'puertas');
         this.physics.add.overlap(this.jugador, this.puertas, this.jugador.pasaPuerta as ArcadePhysicsCallback, undefined, this);
 
-        //ANIMACION ANTAGONISTA Y AÑADIDO DE ANTAGONISTA
+        //ANIMACION ENEMIGOS Y AÑADIDO DE ENEMIGOS
         this.anims.create({
             key: Constantes.FLOWEY.ANIMACION.BAILAR,
             frames: this.anims.generateFrameNames(Constantes.FLOWEY.ID, {
@@ -165,6 +168,63 @@ export default class Nivel1 extends Phaser.Scene {
             this.flowey.anims.play(Constantes.FLOWEY.ANIMACION.BAILAR, true);//Animará una única vez ya que repeat=0 en la configuración
             this.flowey.scaleX = 1;
             this.flowey.scaleY = 1;
+        });
+
+        this.anims.create({
+            key: Constantes.ENEMIGO01.ANIMACION.GESTOS,
+            frames: this.anims.generateFrameNames(Constantes.ENEMIGO01.ID, {
+                start: 1,
+                prefix: "sprite",
+                end: 6
+            }),
+            frameRate: 2,
+            repeat: -1
+        });
+
+        this.mapaNivel.findObject(Constantes.ENEMIGO01.ID, (d: any) =>{
+            this.enemigo01 = this.add.sprite(d.x, d.y, Constantes.ENEMIGO01.ID, 'sprite1');
+            this.enemigo01.anims.play(Constantes.ENEMIGO01.ANIMACION.GESTOS, true);//Animará una única vez ya que repeat=0 en la configuración
+            this.enemigo01.scaleX = 0.3;
+            this.enemigo01.scaleY = 0.3;
+            this
+        });
+
+        this.anims.create({
+            key: Constantes.ENEMIGO02.ANIMACION.GESTOS,
+            frames: this.anims.generateFrameNames(Constantes.ENEMIGO02.ID, {
+                start: 1,
+                prefix: "sprite",
+                end: 4
+            }),
+            frameRate: 2,
+            repeat: -1
+        });
+
+        this.mapaNivel.findObject(Constantes.ENEMIGO02.ID, (d: any) =>{
+            this.enemigo02 = this.add.sprite(d.x, d.y, Constantes.ENEMIGO02.ID, 'sprite1');
+            this.enemigo02.anims.play(Constantes.ENEMIGO02.ANIMACION.GESTOS, true);//Animará una única vez ya que repeat=0 en la configuración
+            this.enemigo02.scaleX = 0.3;
+            this.enemigo02.scaleY = 0.3;
+            this
+        });
+
+        this.anims.create({
+            key: Constantes.ENEMIGO03.ANIMACION.GESTOS,
+            frames: this.anims.generateFrameNames(Constantes.ENEMIGO03.ID, {
+                start: 1,
+                prefix: "sprite",
+                end: 2
+            }),
+            frameRate: 2,
+            repeat: -1
+        });
+
+        this.mapaNivel.findObject(Constantes.ENEMIGO03.ID, (d: any) =>{
+            this.enemigo03 = this.add.sprite(d.x, d.y, Constantes.ENEMIGO03.ID, 'sprite1');
+            this.enemigo03.anims.play(Constantes.ENEMIGO03.ANIMACION.GESTOS, true);//Animará una única vez ya que repeat=0 en la configuración
+            this.enemigo03.scaleX = 0.25;
+            this.enemigo03.scaleY = 0.25;
+            this
         });
         //////////////////////////////////////////////////////
 
