@@ -29,7 +29,10 @@ const Constantes = {
             CAPAMAPEADO: 'capamapeado', //Nombre de capa en JSON
             CAPACOLISIONES: 'capacolisiones',
             DOOR01IN: '001in',
-            DOOR01OUT: '001out'
+            DOOR01OUT: '001out',
+            ENEMIGO01: 'enemigo01',
+            ENEMIGO02: 'enemigo02',
+            ENEMIGO03: 'enemigo03'
         },
         TILESET:'maparuinas' //Nombre del tileset en JSON
     },

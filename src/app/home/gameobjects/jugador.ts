@@ -95,4 +95,9 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         
 
     }
+    public ataque(jugador: Jugador, enemigo: Phaser.Physics.Arcade.Sprite): void {
+        if ((Math.abs(jugador.body.x - enemigo.body.x)) < 1) { //Controla la cercanía del overlap. Poner a 100
+            enemigo.destroy();
+        }
+    }
 }

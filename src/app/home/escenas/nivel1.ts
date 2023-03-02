@@ -3,6 +3,8 @@ import Jugador from '../gameobjects/jugador';
 import Puertas from "../gameobjects/puertas";
 import Miestilo from "../textos";
 import {Bala} from "../gameobjects/bala"
+import BandaEnemigo from "../gameobjects/bandaEnemigo";
+import bandaEnemigo from "../gameobjects/bandaEnemigo";
 interface Datos {
     x: number | undefined;
     y: number | undefined;
@@ -30,6 +32,9 @@ export default class Nivel1 extends Phaser.Scene {
     private enemigo02!: Phaser.GameObjects.Sprite;
     private enemigo03!: Phaser.GameObjects.Sprite;
     private laser: any;
+    private bandaEnemigo01 !: BandaEnemigo;
+    private bandaEnemigo02 !: BandaEnemigo;
+    private bandaEnemigo03 !: BandaEnemigo;
    
    
     puertas!: Puertas;
@@ -319,22 +324,26 @@ export default class Nivel1 extends Phaser.Scene {
         //FÍSICAS OBJETOS
         //Se añade la física del jugador con el nivel
         this.physics.add.collider(this.jugador, this.capasueloMapaNivel);
-        
+        this.bandaEnemigo01 = new bandaEnemigo(this, Constantes.MAPAS.NIVEL1.ENEMIGO01, Constantes.ENEMIGO01.ID, Constantes.ENEMIGO01.ANIMACION.GESTOS, 100);
+        this.bandaEnemigo02 = new bandaEnemigo(this, Constantes.MAPAS.NIVEL1.ENEMIGO02, Constantes.ENEMIGO02.ID, Constantes.ENEMIGO02.ANIMACION.GESTOS, 100);
+        this.bandaEnemigo03 = new bandaEnemigo(this, Constantes.MAPAS.NIVEL1.ENEMIGO03, Constantes.ENEMIGO03.ID, Constantes.ENEMIGO03.ANIMACION.GESTOS, 100);
         //Visualizar la hitbox del enemigo
-        this.physics.world.enable(this.enemigo01);
-        this.physics.world.enable(this.enemigo02);
-        this.physics.world.enable(this.enemigo03);
+        // this.physics.world.enable(this.bandaEnemigo01);
+        // this.physics.world.enable(this.bandaEnemigo02);
+        // this.physics.world.enable(this.bandaEnemigo03);
         
-        this.physics.add.collider(this.jugador, this.balase, this.colision as ArcadePhysicsCallback, undefined, this);
-        this.physics.add.collider(this.jugador, this.enemigo01, this.colisionEnemigo as ArcadePhysicsCallback, undefined, this);
-        this.physics.add.collider(this.jugador, this.enemigo02, this.colisionEnemigo as ArcadePhysicsCallback, undefined, this);
-        this.physics.add.collider(this.jugador, this.enemigo03, this.colisionEnemigo as ArcadePhysicsCallback, undefined, this);
-       
+        this.physics.add.collider(this.bandaEnemigo01, this.capaMapaNivel);
+        this.physics.add.collider(this.bandaEnemigo02, this.capaMapaNivel);
+        this.physics.add.collider(this.bandaEnemigo03, this.capaMapaNivel);
+
+        this.physics.add.overlap(this.jugador, this.bandaEnemigo01, this.jugador.ataque as ArcadePhysicsCallback, undefined, this);
+        this.physics.add.overlap(this.jugador, this.bandaEnemigo02, this.jugador.ataque as ArcadePhysicsCallback, undefined, this);
+        this.physics.add.overlap(this.jugador, this.bandaEnemigo03, this.jugador.ataque as ArcadePhysicsCallback, undefined, this);
 
         //Se inicializan datos del juego y que variarán según eventos
         this.puntuacion = 0;
         this.vidas = 5;
-        
+        this.physics.add.collider(this.jugador, this.balase, this.colision as ArcadePhysicsCallback, undefined, this);
 
         //Inicialización del HUD
         this.registry.set(Constantes.REGISTRO.PUNTUACION, this.puntuacion);

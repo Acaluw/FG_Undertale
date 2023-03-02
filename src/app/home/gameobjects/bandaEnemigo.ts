@@ -73,17 +73,7 @@ export default class BandaEnemigo extends Phaser.Physics.Arcade.Group {
 
     update(time: any, delta: number) {
         this.children.entries.map((enemigo: any) => {
-            if (enemigo.tipojawa == 0) {//Dependiendo del tipo podrá tener distinto comportamiento, animaciones, etc..
-                enemigo.tint = 0xff0000;
-
-                //HOLA JUAN ESTOY AQUIIIIIIIII
-                enemigo.play(Constantes.JAWA.ANIMACION.ESPERAR)//No existe la animación
-                // MODIFICA ESTA CONSTANTE CON LA ANIMACION JUAAAAAAAAAN
-
-                // NO BAJES MAAAAAS QUE ESTOY AQUIIIIIIIIIII
-
-
-            }
+            
             enemigo.anims.play(this.nombreanimacion, true);
             if (enemigo.body.velocity.x === 0) { //El único momento donde velocidad es 0 es tras haberlo creado
                 enemigo.sentido = (Phaser.Math.Between(0, 1) ? 'arriba' : 'abajo');
