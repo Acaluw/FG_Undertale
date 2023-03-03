@@ -6,7 +6,7 @@ export class Bala extends Phaser.GameObjects.Image {
     private escena!: Nivel1
     private jX !: number
     private jY !: number
-    constructor(escena: any) {
+    constructor(escena: any) { 
         super(escena, 0, 0, 'bala', 0);
         this.escena=escena;
         this.veloc = Phaser.Math.GetSpeed(50, 1);//200px  

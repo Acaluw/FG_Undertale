@@ -37,7 +37,7 @@ export default class BandaEnemigo extends Phaser.Physics.Arcade.Group {
         //Mediante entries modifico todos los objetos creados
         this.children.entries.map((enemigo: any) => {
             enemigo.body.setCollideWorldBounds(true);//Importante para indicarle que no se salga del mapa
-            enemigo.scale = 1.5;
+            enemigo.scale = 0.4;
             enemigo.tipoEne = Phaser.Math.Between(0, 1);//Tipo de jawa
             enemigo.ultimodisparo=0;
           

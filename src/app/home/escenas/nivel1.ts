@@ -186,13 +186,13 @@ export default class Nivel1 extends Phaser.Scene {
             repeat: -1
         });
 
-        this.mapaNivel.findObject(Constantes.ENEMIGO01.ID, (d: any) =>{
-            this.enemigo01 = this.add.sprite(d.x, d.y, Constantes.ENEMIGO01.ID, 'sprite1');
-            this.enemigo01.anims.play(Constantes.ENEMIGO01.ANIMACION.GESTOS, true);//Animará una única vez ya que repeat=0 en la configuración
-            this.enemigo01.scaleX = 0.3;
-            this.enemigo01.scaleY = 0.3;
-            this
-        });
+        // this.mapaNivel.findObject(Constantes.ENEMIGO01.ID, (d: any) =>{
+        //     this.enemigo01 = this.add.sprite(d.x, d.y, Constantes.ENEMIGO01.ID, 'sprite1');
+        //     this.enemigo01.anims.play(Constantes.ENEMIGO01.ANIMACION.GESTOS, true);//Animará una única vez ya que repeat=0 en la configuración
+        //     this.enemigo01.scaleX = 0.3;
+        //     this.enemigo01.scaleY = 0.3;
+        //     this
+        // });
 
         this.anims.create({
             key: Constantes.ENEMIGO02.ANIMACION.GESTOS,
@@ -205,13 +205,13 @@ export default class Nivel1 extends Phaser.Scene {
             repeat: -1
         });
 
-        this.mapaNivel.findObject(Constantes.ENEMIGO02.ID, (d: any) =>{
-            this.enemigo02 = this.add.sprite(d.x, d.y, Constantes.ENEMIGO02.ID, 'sprite1');
-            this.enemigo02.anims.play(Constantes.ENEMIGO02.ANIMACION.GESTOS, true);//Animará una única vez ya que repeat=0 en la configuración
-            this.enemigo02.scaleX = 0.3;
-            this.enemigo02.scaleY = 0.3;
-            this
-        });
+        // this.mapaNivel.findObject(Constantes.ENEMIGO02.ID, (d: any) =>{
+        //     this.enemigo02 = this.add.sprite(d.x, d.y, Constantes.ENEMIGO02.ID, 'sprite1');
+        //     this.enemigo02.anims.play(Constantes.ENEMIGO02.ANIMACION.GESTOS, true);//Animará una única vez ya que repeat=0 en la configuración
+        //     this.enemigo02.scaleX = 0.3;
+        //     this.enemigo02.scaleY = 0.3;
+        //     this
+        // });
 
         this.anims.create({
             key: Constantes.ENEMIGO03.ANIMACION.GESTOS,
@@ -224,13 +224,13 @@ export default class Nivel1 extends Phaser.Scene {
             repeat: -1
         });
 
-        this.mapaNivel.findObject(Constantes.ENEMIGO03.ID, (d: any) =>{
-            this.enemigo03 = this.add.sprite(d.x, d.y, Constantes.ENEMIGO03.ID, 'sprite1');
-            this.enemigo03.anims.play(Constantes.ENEMIGO03.ANIMACION.GESTOS, true);//Animará una única vez ya que repeat=0 en la configuración
-            this.enemigo03.scaleX = 0.25;
-            this.enemigo03.scaleY = 0.25;
-            this
-        });
+        // this.mapaNivel.findObject(Constantes.ENEMIGO03.ID, (d: any) =>{
+        //     this.enemigo03 = this.add.sprite(d.x, d.y, Constantes.ENEMIGO03.ID, 'sprite1');
+        //     this.enemigo03.anims.play(Constantes.ENEMIGO03.ANIMACION.GESTOS, true);//Animará una única vez ya que repeat=0 en la configuración
+        //     this.enemigo03.scaleX = 0.25;
+        //     this.enemigo03.scaleY = 0.25;
+        //     this
+        // });
         //////////////////////////////////////////////////////
 
         //////////////////////////////////////////////////////
@@ -367,7 +367,9 @@ export default class Nivel1 extends Phaser.Scene {
 
     override update(time: any, delta: number) {//Se ejecuta cada x milisegundos
         this.jugador.update();//Se tiene que llamar al update de cada elemento
-
+        this.bandaEnemigo01.update(time,delta)
+        this.bandaEnemigo02.update(time,delta)
+        this.bandaEnemigo03.update(time,delta)
         if (time > this.lastFirede) {
             this.lastFirede = time + 500; //Tiempo entre balas
             var bala = this.balase.get();//Coge del pool
