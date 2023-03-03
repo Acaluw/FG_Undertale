@@ -7,7 +7,6 @@ export default class BandaEnemigo extends Phaser.Physics.Arcade.Group {
     private escena: Phaser.Scene;
     private velocidad: number;
     private nombreanimacion: String;
-    private tipoEne: number;
     private balas: Phaser.Physics.Arcade.Group | undefined;
     private jugador: any;
     
@@ -17,9 +16,11 @@ export default class BandaEnemigo extends Phaser.Physics.Arcade.Group {
         this.escena = escena;
         this.nombreanimacion = animObjeto;
         this.velocidad = velocidad;
-        this.tipoEne = 0;
+        
         this.jugador = escena.jugador;//Para acceder a las propiedades de jugador
 
+        
+        
         //Aquí es donde se crea el grupo a partir del idObjeto (JAWA)
         this.addMultiple(escena.mapaNivel.createFromObjects(nombreCapaObjeto, { name: idObjeto }));
 
@@ -38,7 +39,6 @@ export default class BandaEnemigo extends Phaser.Physics.Arcade.Group {
         this.children.entries.map((enemigo: any) => {
             enemigo.body.setCollideWorldBounds(true);//Importante para indicarle que no se salga del mapa
             enemigo.scale = 0.4;
-            enemigo.tipoEne = Phaser.Math.Between(0, 1);//Tipo de jawa
             enemigo.ultimodisparo=0;
           
             //Se crean los POOLS (Conjuntos de objetos reutilizables)
@@ -62,11 +62,11 @@ export default class BandaEnemigo extends Phaser.Physics.Arcade.Group {
     mueveEnemigo(direccion: string, enemigo: any) {
         if (direccion === 'arriba') {
             enemigo.body.setVelocityY(this.velocidad * -1);
-            enemigo.flipX = false;
+            enemigo.flipY = false;
 
         } else if (direccion === 'abajo') {
             enemigo.body.setVelocityY(this.velocidad);
-            enemigo.flipX = true;
+            enemigo.flipY = true;
         }
     }
 
@@ -75,24 +75,21 @@ export default class BandaEnemigo extends Phaser.Physics.Arcade.Group {
         this.children.entries.map((enemigo: any) => {
             
             enemigo.anims.play(this.nombreanimacion, true);
-            if (enemigo.body.velocity.x === 0) { //El único momento donde velocidad es 0 es tras haberlo creado
-                enemigo.sentido = (Phaser.Math.Between(0, 1) ? 'arriba' : 'abajo');
-                this.mueveEnemigo(enemigo.sentido, enemigo);
-            }
-            if (enemigo.body.blocked.down) {
+            
+            if (enemigo.body.touching.down) {
+                console.log("toco abajo")
                 enemigo.sentido = 'arriba';                
                 this.mueveEnemigo(enemigo.sentido, enemigo);
    
-            } else if (enemigo.body.blocked.up) {
+            } else if (enemigo.body.touching.up) {
+                console.log("toco arriba")
                 enemigo.sentido = 'abajo';                
                 this.mueveEnemigo(enemigo.sentido, enemigo);
-
-
             }
             //Dispara si personaje cerca
             if (Math.abs(enemigo.x - this.jugador.x) < 300) {
                 var direcdisparo;
-                if (enemigo.x - this.jugador.x > 0)//Enemigo a derecha de jugador
+                if (enemigo.y - this.jugador.y > 0)//Enemigo a derecha de jugador
                     direcdisparo = 1;//Dispara a izquierda
                 else
                     direcdisparo = -1;//Enemigo a izquierda de jugador, dispara a derecha

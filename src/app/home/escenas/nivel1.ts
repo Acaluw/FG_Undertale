@@ -332,9 +332,9 @@ export default class Nivel1 extends Phaser.Scene {
         // this.physics.world.enable(this.bandaEnemigo02);
         // this.physics.world.enable(this.bandaEnemigo03);
         
-        this.physics.add.collider(this.bandaEnemigo01, this.capaMapaNivel);
-        this.physics.add.collider(this.bandaEnemigo02, this.capaMapaNivel);
-        this.physics.add.collider(this.bandaEnemigo03, this.capaMapaNivel);
+        this.physics.add.collider(this.bandaEnemigo01, this.capasueloMapaNivel);
+        this.physics.add.collider(this.bandaEnemigo02, this.capasueloMapaNivel);
+        this.physics.add.collider(this.bandaEnemigo03, this.capasueloMapaNivel);
 
         this.physics.add.overlap(this.jugador, this.bandaEnemigo01, this.jugador.ataque as ArcadePhysicsCallback, undefined, this);
         this.physics.add.overlap(this.jugador, this.bandaEnemigo02, this.jugador.ataque as ArcadePhysicsCallback, undefined, this);

@@ -63,9 +63,9 @@ export class BalaSimple extends Phaser.Physics.Arcade.Sprite {
         this.tipodisparo=tipodisparo;//lo determina tipo de jawa
         this.setPosition(x, y);//Posición de inicio disparo
         if (tipodisparo == 0) {
-            this.setGravityY(-600);//Modifica gravedad restándo la general: disparo horizontal con gravedad NULA 
+            this.setGravityY(0);//Modifica gravedad restándo la general: disparo horizontal con gravedad NULA 
         } else {
-            this.setGravityY(-100);//Modifica gravedad : disparo diagonal que NO escapa de la gravedad
+            this.setGravityY(0);//Modifica gravedad : disparo diagonal que NO escapa de la gravedad
         }
         if (direccion == 1) this.flipX = true;//voltea sprite
     };
@@ -74,7 +74,7 @@ export class BalaSimple extends Phaser.Physics.Arcade.Sprite {
     override update(time: any, delta: number) {//delta es el incremento por segundo (algo parecido a los FPS)
         let avance = this.veloc * delta;
         let avancex = avance * this.direc;
-        this.x -= avancex;
+        this.y -= avancex;
         if (this.tipodisparo == 1) //Si disparo en diagonal también sube la misma distancia (parábola)
             this.y -= avance;
         if (!this.escena.cameras.main.worldView.contains(this.x, this.y))//Si se sale de cámara, destruye y vuelve al pool
