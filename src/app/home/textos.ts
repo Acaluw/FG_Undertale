@@ -1,6 +1,6 @@
 
 const Miestilo = {
-  fill: '#00ff00',
+  fill: '#ffffff',
   fontFamily: 'monospace',
   lineSpacing: 4
 };

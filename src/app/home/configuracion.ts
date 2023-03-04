@@ -2,11 +2,12 @@ import CargaDatos from './escenas/cargadatos';
 import Nivel1 from './escenas/nivel1';
 import Menu from './escenas/menu';
 import HUD from './escenas/hud';
+import menuoptions from './escenas/menuoptions';
 
 const Configuracion = {
   type: Phaser.AUTO, //AUTO: Automáticamente elige WebGL o Canvas
 
-  scene: [CargaDatos, Menu, Nivel1,HUD], //Las carga (preload+create) por este orden y luego se decide el flujo.  
+  scene: [CargaDatos, Menu, menuoptions , Nivel1,HUD], //Las carga (preload+create) por este orden y luego se decide el flujo.  
   scale: {
     width: 1036, //Se establece un ratio de 2,16 aprox (ANDROID). Para WEB normal se podría haber usado 800x600 
     height: 480,

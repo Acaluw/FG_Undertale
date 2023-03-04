@@ -5,6 +5,7 @@ import Miestilo from "../textos";
 import {Bala} from "../gameobjects/bala"
 import BandaEnemigo from "../gameobjects/bandaEnemigo";
 import bandaEnemigo from "../gameobjects/bandaEnemigo";
+import menuoptions from "./menuoptions";
 interface Datos {
     x: number | undefined;
     y: number | undefined;
@@ -103,8 +104,8 @@ export default class Nivel1 extends Phaser.Scene {
 
         //SONIDOS
         //MUSICA
-        var musica = this.sound.add('musica',{volume: 0.2});
-        this.laser = this.sound.add('laser', {volume: 0.25});//Volumen al 25%
+        var musica = this.sound.add('musica',{volume: menuoptions.ambientSound/100});
+        this.laser = this.sound.add('laser', {volume: menuoptions.effectsSound/100});//Volumen al 25%
         musica.play({
             loop: true
         });

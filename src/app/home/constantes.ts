@@ -12,6 +12,7 @@ const Constantes = {
     ESCENAS:{
         CARGA: 'Carga',
         MENU: 'Menu',
+        MENUOPTIONS: 'MenuOptions',
         NIVEL1: 'Nivel1',
         HUD: 'HUD'
     },

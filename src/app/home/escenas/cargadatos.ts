@@ -53,7 +53,23 @@ export default class CargaDatos extends Phaser.Scene {
         this.load.image(Constantes.MAPAS.TILESET, 'assets/mapas/Principio/maparuinas.png');
 
         //Fondos e imágenes
-        this.load.image(Constantes.FONDOS.LOGO, 'assets/imagenes/menulogo.png');
+        this.load.image('menu_background', 'assets/imagenes/menu/background.png');
+        this.load.image(Constantes.FONDOS.LOGO, 'assets/imagenes/menu/menulogo.png');
+        this.load.image('menu_subtitle', 'assets/imagenes/menu/menu_subtitle.png');
+        this.load.image('menu_team', 'assets/imagenes/menu/menu_team.png');
+        this.load.image('menu_team_made', 'assets/imagenes/menu/menu_team_made.png');
+        this.load.image('member_javier', 'assets/imagenes/menu/member_javier.png');
+        this.load.image('member_juan', 'assets/imagenes/menu/member_juan.png');
+        this.load.image('member_alvaro', 'assets/imagenes/menu/member_alvaro.png');
+        this.load.image('menu_play', 'assets/imagenes/menu/menu_play.png');
+        this.load.image('menu_options', 'assets/imagenes/menu/menu_options.png');
+        this.load.image('menu_options_title', 'assets/imagenes/menu/menu_options_title.png');
+        this.load.image('menu_options_border', 'assets/imagenes/menu/options_border.png');
+        this.load.image('menu_options_background', 'assets/imagenes/menu/options_background.png');
+        this.load.image('menu_options_back', 'assets/imagenes/menu/menu_back.png');
+        this.load.image('menu_ambient_vol', 'assets/imagenes/menu/menu_ambientVol.png');
+        this.load.image('menu_effects_vol', 'assets/imagenes/menu/menu_effectsVol.png');
+        this.load.atlas('menu_options_button', 'assets/imagenes/menu/spritesheetBtn.png', 'assets/imagenes/menu/spritesheetBtn.json');
 
         //Fuente
         this.load.bitmapFont(Constantes.FUENTES.NOMBREFUENTE, 'assets/fuentes/atari-sunset.png', 'assets/fuentes/atari-sunset.xml');
