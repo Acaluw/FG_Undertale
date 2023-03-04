@@ -324,13 +324,10 @@ export default class Nivel1 extends Phaser.Scene {
         //FÍSICAS OBJETOS
         //Se añade la física del jugador con el nivel
         this.physics.add.collider(this.jugador, this.capasueloMapaNivel);
-        this.bandaEnemigo01 = new bandaEnemigo(this, Constantes.MAPAS.NIVEL1.ENEMIGO01, Constantes.ENEMIGO01.ID, Constantes.ENEMIGO01.ANIMACION.GESTOS, 100);
-        this.bandaEnemigo02 = new bandaEnemigo(this, Constantes.MAPAS.NIVEL1.ENEMIGO02, Constantes.ENEMIGO02.ID, Constantes.ENEMIGO02.ANIMACION.GESTOS, 100);
-        this.bandaEnemigo03 = new bandaEnemigo(this, Constantes.MAPAS.NIVEL1.ENEMIGO03, Constantes.ENEMIGO03.ID, Constantes.ENEMIGO03.ANIMACION.GESTOS, 100);
-        //Visualizar la hitbox del enemigo
-        // this.physics.world.enable(this.bandaEnemigo01);
-        // this.physics.world.enable(this.bandaEnemigo02);
-        // this.physics.world.enable(this.bandaEnemigo03);
+        this.bandaEnemigo01 = new bandaEnemigo(this, Constantes.MAPAS.NIVEL1.ENEMIGO01, Constantes.ENEMIGO01.ID, Constantes.ENEMIGO01.ANIMACION.GESTOS, 50);
+        this.bandaEnemigo02 = new bandaEnemigo(this, Constantes.MAPAS.NIVEL1.ENEMIGO02, Constantes.ENEMIGO02.ID, Constantes.ENEMIGO02.ANIMACION.GESTOS, 50);
+        this.bandaEnemigo03 = new bandaEnemigo(this, Constantes.MAPAS.NIVEL1.ENEMIGO03, Constantes.ENEMIGO03.ID, Constantes.ENEMIGO03.ANIMACION.GESTOS, 50);
+       
         
         this.physics.add.collider(this.bandaEnemigo01, this.capasueloMapaNivel);
         this.physics.add.collider(this.bandaEnemigo02, this.capasueloMapaNivel);
