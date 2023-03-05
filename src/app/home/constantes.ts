@@ -7,7 +7,7 @@ const Constantes = {
         BESKAR: 'cambiaBeskar'
     },
     HUD:{
-        VIDAS: 'VIDA '
+        VIDAS: 'Vidas '
     },    
     ESCENAS:{
         CARGA: 'Carga',

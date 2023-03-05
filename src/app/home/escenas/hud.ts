@@ -6,7 +6,8 @@ import Nivel1 from './nivel1';
 export default class HUD extends Phaser.Scene {
     private vidasHUD : Phaser.GameObjects.BitmapText | undefined;
     private puntuacionHUD : Phaser.GameObjects.BitmapText | undefined;
-    //private beskarHUD : Phaser.GameObjects.BitmapText | undefined;
+    private puntLetraHUD : Phaser.GameObjects.BitmapText | undefined;
+    private objetivoHUD: Phaser.GameObjects.BitmapText | undefined;
 
     private width: number | undefined;
     private height: number | undefined;
@@ -27,18 +28,23 @@ export default class HUD extends Phaser.Scene {
         const nivel: Phaser.Scene = this.scene.get('Nivel1');//Necesitamos la escena asociada a los eventos, será Nivel1 
         nivel.events.on(Constantes.EVENTOS.VIDAS, this.actualizaVidas, this);
         nivel.events.on(Constantes.EVENTOS.PUNTUACION, this.actualizaPuntuacion, this);
-        //nivel.events.on(Constantes.EVENTOS.BESKAR, this.actualizaBeskar, this);
         let tamaletra=30;
+        const border = this.add.image(150, this.height!-30, 'menu_options_border');
+        const border_background = this.add.image(150, this.height!-30, 'menu_options_background');
+        border.scaleX = 0.7;
+        border.scaleY = 0.1;
+        border_background.scaleX = 0.7;
+        border_background.scaleY = 0.1;
+        border_background.alpha = 0.7;
         //VIDAS
-        this.vidasHUD = this.add.bitmapText(20, 20, Constantes.FUENTES.NOMBREFUENTE, Constantes.HUD.VIDAS+nivel.registry.get(Constantes.REGISTRO.VIDAS), tamaletra);
-        this.vidasHUD.setTint(0xFF8000, 0xE0C0A0);//La fuente ha de ser blanca para tintar 
+        this.vidasHUD = this.add.bitmapText(30, 20, Constantes.FUENTES.NOMBREFUENTE, Constantes.HUD.VIDAS+nivel.registry.get(Constantes.REGISTRO.VIDAS), tamaletra);
         //PUNTUACIÓN
-        this.puntuacionHUD= this.add.bitmapText(this.width! - 130, 20, Constantes.FUENTES.NOMBREFUENTE,'0000', tamaletra);
-        this.puntuacionHUD.setTint(0xFF8000, 0xE0C0A0); //La fuente ha de ser blanca para tintar
-        //BESKAR
-        //this.beskarHUD= this.add.bitmapText(20 ,55, Constantes.FUENTES.NOMBREFUENTE, Constantes.HUD.BESKAR+nivel.registry.get(Constantes.REGISTRO.BESKAR),tamaletra);
-        //this.beskarHUD.setTint(0x9b9b9b,0xFFFFFF,0x9b9b9b,0xFFFFFF); //La fuente ha de ser blanca para tintar
-        //console.log("Escena HUD Creada");
+        this.puntuacionHUD= this.add.bitmapText(this.width! - 100, 20, Constantes.FUENTES.NOMBREFUENTE,'0000', tamaletra);
+        this.puntLetraHUD= this.add.bitmapText(this.width! - 275, 20, Constantes.FUENTES.NOMBREFUENTE,'Puntuacion: ', tamaletra);
+        //OBJETIVO
+        this.objetivoHUD = this.add.bitmapText(20, this.height!-40, Constantes.FUENTES.NOMBREFUENTE, 'Objetivo: Consigue los caramelos', tamaletra);
+        this.objetivoHUD.scaleX = 0.5;
+        this.objetivoHUD.scaleY = 0.5;
     }
 
     private actualizaVidas(): void{
@@ -49,9 +55,4 @@ export default class HUD extends Phaser.Scene {
         //Función PAD permite configurar el tamaño representado de un número Pad(valor,número,carácter inicial,dirección[1=de izq a der])
         this.puntuacionHUD!.text = Phaser.Utils.String.Pad(this.registry.get(Constantes.REGISTRO.PUNTUACION), 4, '0', 1);
     }
-
-    /*private actualizaBeskar(): void {
-        this.beskarHUD!.text = Constantes.HUD.BESKAR+ Phaser.Utils.String.Pad(this.registry.get(Constantes.REGISTRO.BESKAR), 1,'0',1);
-    }*/
-
 }
