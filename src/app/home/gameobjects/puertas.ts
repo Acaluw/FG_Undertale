@@ -15,17 +15,13 @@ export default class Puertas extends Phaser.Physics.Arcade.Group {
         //añadimos física
         this.escena.physics.world.enable(this.children.entries);
 
-        this.children.entries.map((puerta: any) =>{
+        /*this.children.entries.map((puerta: any) =>{
            // puerta.body.setCollideWorldBounds(true);
             puerta.setTexture(Constantes.JUGADOR.ANIMACION.ESPERAR);
-        });
+        });*/
     }
 
      public update(): void {
        
     }
-
-
-
-
 }

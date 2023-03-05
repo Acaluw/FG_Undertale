@@ -7,10 +7,8 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
     public cursores: Phaser.Types.Input.Keyboard.CursorKeys;
     private teclaEspacio: Phaser.Input.Keyboard.Key;
 
-    private escena: Nivel1;//para que coja las propiedades públicas
+    private escena: Nivel1;
     private velocidad: number;
-
-    private tiempoEntrePuertas!: boolean;
 
     constructor(config: any) { //se le pasa escena para utilizar los objetos que contiene
         super(config.escena, config.x, config.y, config.texture);
@@ -30,7 +28,6 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         //Control entrada
         this.cursores = this.escena.input.keyboard.createCursorKeys();
         this.teclaEspacio = this.escena.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-
     }
 
     override update() {
@@ -39,7 +36,6 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
             //console.log("Izquierda...");
             this.setVelocityX(this.velocidad * -1);
             this.anims.play(Constantes.JUGADOR.ANIMACION.ANDAR_IZQUIERDA, true);
-            // this.setTexture(Constantes.JUGADOR.ANIMACION.ESPERAR);
         } else if (this.cursores.right.isDown) {
             //console.log("Derecha...");
             this.setVelocityX(this.velocidad);
@@ -49,11 +45,11 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
             //console.log("Abajo...");
             this.setVelocityY(this.velocidad);
             this.anims.play(Constantes.JUGADOR.ANIMACION.ANDAR_ABAJO, true);
-        } else if (this.cursores.up.isDown) { //SIN GRAVEDAD: Solo salta si estamos en el suelo, evita el "vuelo"
+        } else if (this.cursores.up.isDown) { 
             //console.log("Arriba...");
             this.setVelocityY(this.velocidad * -1);//Restamos Y para "subir"
             this.anims.play(Constantes.JUGADOR.ANIMACION.ANDAR_ARRIBA, true);
-        } else { //Esta parte es importante para que frene el movimiento si no pulsamos nada
+        } else { 
             //console.log("Esperando...");
             this.setVelocityX(0);
             this.setVelocityY(0); // SIN GRAVEDAD: SI NO QUEREMOS gravedad hay que descomentar esta línea
@@ -85,7 +81,6 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
 
         jugador.escena.cameras.main.fadeIn(1000, 0, 0, 0)
     
-  
         jugador.escena.registry.set(Constantes.REGISTRO.VIDAS, jugador.escena.vidas);
         jugador.escena.events.emit(Constantes.EVENTOS.VIDAS);
 

@@ -64,8 +64,6 @@ export default class Nivel1 extends Phaser.Scene {
             fontFamily: 'monospace',
             lineSpacing: 4
         };
-        this.info = this.add.text(0, 0, '', miestilo);
-        this.info2 = this.add.text(700, 0, '');
 
         this.ancho = this.sys.game.canvas.width;
         this.alto = this.sys.game.canvas.height;
@@ -187,14 +185,6 @@ export default class Nivel1 extends Phaser.Scene {
             repeat: -1
         });
 
-        // this.mapaNivel.findObject(Constantes.ENEMIGO01.ID, (d: any) =>{
-        //     this.enemigo01 = this.add.sprite(d.x, d.y, Constantes.ENEMIGO01.ID, 'sprite1');
-        //     this.enemigo01.anims.play(Constantes.ENEMIGO01.ANIMACION.GESTOS, true);//Animará una única vez ya que repeat=0 en la configuración
-        //     this.enemigo01.scaleX = 0.3;
-        //     this.enemigo01.scaleY = 0.3;
-        //     this
-        // });
-
         this.anims.create({
             key: Constantes.ENEMIGO02.ANIMACION.GESTOS,
             frames: this.anims.generateFrameNames(Constantes.ENEMIGO02.ID, {
@@ -206,14 +196,6 @@ export default class Nivel1 extends Phaser.Scene {
             repeat: -1
         });
 
-        // this.mapaNivel.findObject(Constantes.ENEMIGO02.ID, (d: any) =>{
-        //     this.enemigo02 = this.add.sprite(d.x, d.y, Constantes.ENEMIGO02.ID, 'sprite1');
-        //     this.enemigo02.anims.play(Constantes.ENEMIGO02.ANIMACION.GESTOS, true);//Animará una única vez ya que repeat=0 en la configuración
-        //     this.enemigo02.scaleX = 0.3;
-        //     this.enemigo02.scaleY = 0.3;
-        //     this
-        // });
-
         this.anims.create({
             key: Constantes.ENEMIGO03.ANIMACION.GESTOS,
             frames: this.anims.generateFrameNames(Constantes.ENEMIGO03.ID, {
@@ -224,15 +206,6 @@ export default class Nivel1 extends Phaser.Scene {
             frameRate: 2,
             repeat: -1
         });
-
-        // this.mapaNivel.findObject(Constantes.ENEMIGO03.ID, (d: any) =>{
-        //     this.enemigo03 = this.add.sprite(d.x, d.y, Constantes.ENEMIGO03.ID, 'sprite1');
-        //     this.enemigo03.anims.play(Constantes.ENEMIGO03.ANIMACION.GESTOS, true);//Animará una única vez ya que repeat=0 en la configuración
-        //     this.enemigo03.scaleX = 0.25;
-        //     this.enemigo03.scaleY = 0.25;
-        //     this
-        // });
-        //////////////////////////////////////////////////////
 
         //////////////////////////////////////////////////////
         //ANIMACION ICONO GUARDADO
