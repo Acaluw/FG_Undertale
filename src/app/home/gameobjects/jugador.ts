@@ -67,15 +67,15 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
 
         if (direccionSalida == 'up') {
             jugador.escena.jugador.x = posX;
-            jugador.escena.jugador.y = posY-30;
+            jugador.escena.jugador.y = posY-32;
         } else if (direccionSalida == 'down') {
             jugador.escena.jugador.x = posX;
-            jugador.escena.jugador.y = posY+10;
+            jugador.escena.jugador.y = posY+12;
         } else if (direccionSalida == 'right') {
-            jugador.escena.jugador.x = posX+30;
+            jugador.escena.jugador.x = posX+32;
             jugador.escena.jugador.y = posY;
         } else if (direccionSalida == 'left') {
-            jugador.escena.jugador.x = posX-30;
+            jugador.escena.jugador.x = posX-32;
             jugador.escena.jugador.y = posY;
         }
 

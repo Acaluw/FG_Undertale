@@ -325,12 +325,6 @@ export default class Nivel1 extends Phaser.Scene {
     }
     colision(jugador: Phaser.Physics.Arcade.Sprite, enemigo: Phaser.Physics.Arcade.Sprite): void {
         enemigo.destroy();//destruye la bala y vuelve al pool
-        this.time.addEvent({
-            delay: 1000,
-            callback: () => {
-                this.info2.setText(['']);
-            }
-        });
     }
     colisionEnemigo(jugador: Phaser.Physics.Arcade.Sprite, enemigo: Phaser.Physics.Arcade.Sprite): void {
         enemigo.destroy();
