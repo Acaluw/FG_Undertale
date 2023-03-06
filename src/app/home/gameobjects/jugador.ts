@@ -17,7 +17,7 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         this.escena.physics.world.enable(this);//Activo físicas para este objeto
         this.setCollideWorldBounds(true);//Para que no se salga del mapa
         this.escena.add.existing(this);//Añade objeto a escena
-        this.velocidad = 150;//pixels por segundo (aprox)
+        this.velocidad = 120;//pixels por segundo (aprox)
 
         //Correcciones de "sprite", offset y tamaño general
         this.body.setSize(20, 10);//Se corrige tamaño de sprite
@@ -53,7 +53,7 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
             return;
         } else if (this.cursores.up.isDown || this.escena.joystickCursors.up.isDown) { 
             //console.log("Arriba...");
-            this.setVelocityY(this.velocidad * -1);//Restamos Y para "subir"
+            this.setVelocityY(this.velocidad * -1);
             this.setVelocityX(0);
             this.anims.play(Constantes.JUGADOR.ANIMACION.ANDAR_ARRIBA, true);
             return;
