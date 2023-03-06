@@ -342,7 +342,7 @@ export default class Nivel1 extends Phaser.Scene {
         //Es análogo a la variable cursores para utilizar las teclas
 
         //Botón /es independiente del plugin joystick!!
-        var circulorojo = this.add.circle(this.ancho * .9, this.alto * .9, 25, 0xff0000).setAlpha(0.6).setInteractive();
+        var circulorojo = this.add.circle(this.ancho * .7, this.alto * .65, 20, 0xff0000).setAlpha(0.6).setInteractive();
         this.input.addPointer(1); //Para que pueda tener un segundo punto de entrada a la pantalla (un segundo control) 
         this.botonpulsado(circulorojo);
         circulorojo.setScrollFactor(0);//Fijado a cámara
