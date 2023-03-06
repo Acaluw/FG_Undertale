@@ -47,6 +47,10 @@ export default class Nivel1 extends Phaser.Scene {
     public puntuacion!: number;
     public vidas!: number;
 
+    private joystick: any;//Variable de mapeo del plugin JOYSTICK
+    private mijoystick: any;//Variable mapeada  del plugin JOYSTICK
+    public joystickCursors: any;//Cursores virtuales para poder utilizar en JUGADOR.TS
+
     constructor() {
         super(Constantes.ESCENAS.NIVEL1);
     }
@@ -322,7 +326,35 @@ export default class Nivel1 extends Phaser.Scene {
         this.registry.set(Constantes.REGISTRO.VIDAS, this.vidas);
         this.events.emit(Constantes.EVENTOS.VIDAS);
 
+
+        //Joystick
+        this.mijoystick = this.joystick.add(this.scene, {
+        x: this.ancho * .1,
+        y: this.alto * .9,
+        radius: 50,//de separación del joystick
+        base: this.add.circle(0, 0, 50, 0x888888).setAlpha(0.6),
+        //base: this.add.rectangle(50, 50, 100, 100, 0x888888).setAlpha(0.6), //Se pueden usar otras formas
+        thumb: this.add.circle(0, 0, 25, 0xcccccc).setAlpha(0.6),
+        dir: '8dir',   // 'up&down'|0|'left&right'|1|'4dir'|2|'8dir'|3  //Direcciones que se pueden utilizar
+        })
+        this.joystickCursors = this.mijoystick.createCursorKeys(); //Asocia cursor virtual al joystick (para utilizarlo en jugador.ts)
+        //Es análogo a la variable cursores para utilizar las teclas
+
+        //Botón /es independiente del plugin joystick!!
+        var circulorojo = this.add.circle(this.ancho * .9, this.alto * .9, 25, 0xff0000).setAlpha(0.6).setInteractive();
+        this.input.addPointer(1); //Para que pueda tener un segundo punto de entrada a la pantalla (un segundo control) 
+        this.botonpulsado(circulorojo);
+        circulorojo.setScrollFactor(0);//Fijado a cámara
+        console.log("Paso por aqui");
+
     }
+
+    botonpulsado(circulorojo: Phaser.GameObjects.Arc) {
+        circulorojo.on('pointerdown', () => {
+            this.registry.set('botonpulsado', true);
+        });
+    }
+
     colision(jugador: Phaser.Physics.Arcade.Sprite, enemigo: Phaser.Physics.Arcade.Sprite): void {
         enemigo.destroy();//destruye la bala y vuelve al pool
     }
@@ -331,6 +363,7 @@ export default class Nivel1 extends Phaser.Scene {
     }
 
     override update(time: any, delta: number) {//Se ejecuta cada x milisegundos
+        
         this.jugador.update();//Se tiene que llamar al update de cada elemento
         this.bandaEnemigo01.update(time,delta)
         this.bandaEnemigo02.update(time,delta)

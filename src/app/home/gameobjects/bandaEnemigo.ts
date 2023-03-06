@@ -73,17 +73,17 @@ export default class BandaEnemigo extends Phaser.Physics.Arcade.Group {
             
             enemigo.anims.play(this.nombreanimacion, true);
             if (enemigo.body.velocity.y === 0) { //El único momento donde velocidad es 0 es tras haberlo creado
-                console.log("ATASCADO EN VEL 0")
+                
                 enemigo.sentido = (Phaser.Math.Between(0, 1) ? 'arriba' : 'abajo');
                 this.mueveEnemigo(enemigo.sentido, enemigo);
             }
             if (enemigo.body.touching.down) {
-                console.log("toco abajo")
+                
                 enemigo.sentido = 'arriba';                
                 this.mueveEnemigo(enemigo.sentido, enemigo);
    
             } else if (enemigo.body.touching.up) {
-                console.log("toco arriba")
+                
                 enemigo.sentido = 'abajo';                
                 this.mueveEnemigo(enemigo.sentido, enemigo);
             }
