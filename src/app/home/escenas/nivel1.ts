@@ -297,6 +297,7 @@ export default class Nivel1 extends Phaser.Scene {
            this.cameras.main.setBounds(0, 0, this.mapaNivel.widthInPixels, this.mapaNivel.heightInPixels);
            this.cameras.main.zoom=2;
            this.cameras.main.startFollow(this.jugador);
+           
 
 
         //FÍSICAS OBJETOS
@@ -329,12 +330,12 @@ export default class Nivel1 extends Phaser.Scene {
 
         //Joystick
         this.mijoystick = this.joystick.add(this.scene, {
-        x: this.ancho * .1,
-        y: this.alto * .9,
-        radius: 50,//de separación del joystick
-        base: this.add.circle(0, 0, 50, 0x888888).setAlpha(0.6),
+        x: this.ancho * .3,
+        y: this.alto * .65,
+        radius: 25,//de separación del joystick
+        base: this.add.circle(0, 0, 20, 0x888888).setAlpha(0.6),
         //base: this.add.rectangle(50, 50, 100, 100, 0x888888).setAlpha(0.6), //Se pueden usar otras formas
-        thumb: this.add.circle(0, 0, 25, 0xcccccc).setAlpha(0.6),
+        thumb: this.add.circle(0, 0, 12, 0xcccccc).setAlpha(0.6),
         dir: '8dir',   // 'up&down'|0|'left&right'|1|'4dir'|2|'8dir'|3  //Direcciones que se pueden utilizar
         })
         this.joystickCursors = this.mijoystick.createCursorKeys(); //Asocia cursor virtual al joystick (para utilizarlo en jugador.ts)
