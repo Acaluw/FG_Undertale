@@ -35,20 +35,28 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         if (this.cursores.left.isDown || this.escena.joystickCursors.left.isDown) {
             //console.log("Izquierda...");
             this.setVelocityX(this.velocidad * -1);
+            this.setVelocityY(0);
             this.anims.play(Constantes.JUGADOR.ANIMACION.ANDAR_IZQUIERDA, true);
+            return;
         } else if (this.cursores.right.isDown || this.escena.joystickCursors.right.isDown) {
             //console.log("Derecha...");
             this.setVelocityX(this.velocidad);
+            this.setVelocityY(0);
             this.flipX = false;
             this.anims.play(Constantes.JUGADOR.ANIMACION.ANDAR_DERECHA, true);
+            return;
         } else if (this.cursores.down.isDown || this.escena.joystickCursors.down.isDown) {
             //console.log("Abajo...");
             this.setVelocityY(this.velocidad);
+            this.setVelocityX(0);
             this.anims.play(Constantes.JUGADOR.ANIMACION.ANDAR_ABAJO, true);
+            return;
         } else if (this.cursores.up.isDown || this.escena.joystickCursors.up.isDown) { 
             //console.log("Arriba...");
             this.setVelocityY(this.velocidad * -1);//Restamos Y para "subir"
+            this.setVelocityX(0);
             this.anims.play(Constantes.JUGADOR.ANIMACION.ANDAR_ARRIBA, true);
+            return;
         } else { 
             //console.log("Esperando...");
             this.setVelocityX(0);
