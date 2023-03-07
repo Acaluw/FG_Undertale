@@ -35,19 +35,21 @@ export default class BandaEnemigo extends Phaser.Physics.Arcade.Group {
         //Mediante entries modifico todos los objetos creados
         this.children.entries.map((enemigo: any) => {
             enemigo.body.setCollideWorldBounds(true);//Importante para indicarle que no se salga del mapa
-            enemigo.scale = 0.4;
             enemigo.ultimodisparo=0;
 
             if (idObjeto == 'enemigo01'){
                 enemigo.body.setSize(75, 117);
                 enemigo.body.setOffset(10.5, 0);
+                enemigo.scale = 0.35;
             }
             else if (idObjeto == 'enemigo02'){
                 enemigo.body.setSize(75, 105);
                 enemigo.body.setOffset(0, 2);
+                enemigo.scale = 0.33;
             } else{
                 enemigo.body.setSize(55, 88);
                 enemigo.body.setOffset(18.5, 5);
+                enemigo.scale = 0.3;
             }
             
           

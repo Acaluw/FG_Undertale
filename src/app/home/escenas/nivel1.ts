@@ -6,6 +6,7 @@ import {Bala} from "../gameobjects/bala"
 import BandaEnemigo from "../gameobjects/bandaEnemigo";
 import bandaEnemigo from "../gameobjects/bandaEnemigo";
 import menuoptions from "./menuoptions";
+import knife from "../gameobjects/knife";
 interface Datos {
     x: number | undefined;
     y: number | undefined;
@@ -20,8 +21,6 @@ export default class Nivel1 extends Phaser.Scene {
     public ancho!: integer;
     public alto!: integer;
     private balase!: Phaser.GameObjects.Group;
-    private info: any;
-    private info2: any;
     public mapaNivel!: Phaser.Tilemaps.Tilemap;
     private lastFirede = 0;
     private mapaTileset!: Phaser.Tilemaps.Tileset;
@@ -29,9 +28,7 @@ export default class Nivel1 extends Phaser.Scene {
     private capasueloMapaNivel!: Phaser.Tilemaps.TilemapLayer;
     private background!: Phaser.GameObjects.Sprite;
     private flowey!: Phaser.GameObjects.Sprite;
-    private enemigo01!: Phaser.GameObjects.Sprite;
-    private enemigo02!: Phaser.GameObjects.Sprite;
-    private enemigo03!: Phaser.GameObjects.Sprite;
+    private knife!: knife;
     private laser: any;
     private bandaEnemigo01 !: BandaEnemigo;
     private bandaEnemigo02 !: BandaEnemigo;
@@ -57,8 +54,6 @@ export default class Nivel1 extends Phaser.Scene {
 
     preload() //Ejecuta una única vez la precarga de los assets
     {
-        this.load.image('bala', './assets/imagenes/tear.png');
-        
     }
 
     create() //Crea escena
@@ -104,10 +99,21 @@ export default class Nivel1 extends Phaser.Scene {
             });
         });
 
+        //Misceláneo
+        this.mapaNivel.findObject('knife', (d: any) =>{
+            this.knife = new knife({
+                escena: this,
+                x: d.x,
+                y: d.y,
+                textura: this.add.image(d.x, d.y, 'knife')
+            });  
+        });
+        this.physics.add.collider(this.knife, this.jugador);
+        
+
         //SONIDOS
-        //MUSICA
         var musica = this.sound.add('musica',{volume: menuoptions.ambientSound/100});
-        this.laser = this.sound.add('laser', {volume: menuoptions.effectsSound/100});//Volumen al 25%
+        this.laser = this.sound.add('laser', {volume: menuoptions.effectsSound/100});
         musica.play({
             loop: true
         });
@@ -350,8 +356,6 @@ export default class Nivel1 extends Phaser.Scene {
         var texto_circulo_b = this.add.text(this.ancho * .6755, this.alto * .664, 'B', miestilo);
         texto_circulo_a.setScrollFactor(0);
         texto_circulo_b.setScrollFactor(0);
-        console.log("Paso por aqui");
-
     }
 
     botonpulsado(circulorojo: Phaser.GameObjects.Arc) {

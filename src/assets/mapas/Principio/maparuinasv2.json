@@ -511,6 +511,29 @@
         }, 
         {
          "draworder":"topdown",
+         "id":14,
+         "name":"knife",
+         "objects":[
+                {
+                 "class":"",
+                 "height":0,
+                 "id":51,
+                 "name":"knife",
+                 "point":true,
+                 "rotation":0,
+                 "visible":true,
+                 "width":0,
+                 "x":3040,
+                 "y":2960.33333333333
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
          "id":12,
          "name":"enemigo02",
          "objects":[
@@ -873,8 +896,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":14,
- "nextobjectid":51,
+ "nextlayerid":15,
+ "nextobjectid":52,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.2",
