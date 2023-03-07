@@ -5,11 +5,12 @@ import Nivel1 from '../escenas/nivel1';
 export default class Jugador extends Phaser.Physics.Arcade.Sprite {
     //Control de entrada
     public cursores: Phaser.Types.Input.Keyboard.CursorKeys;
-    private teclaEspacio: Phaser.Input.Keyboard.Key;
 
     private escena: Nivel1;
     private velocidad: number;
-
+    public teclaInteraccion: Phaser.Input.Keyboard.Key;
+    public teclaAtaque: Phaser.Input.Keyboard.Key;
+    
     constructor(config: any) { //se le pasa escena para utilizar los objetos que contiene
         super(config.escena, config.x, config.y, config.texture);
 
@@ -27,7 +28,8 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
 
         //Control entrada
         this.cursores = this.escena.input.keyboard.createCursorKeys();
-        this.teclaEspacio = this.escena.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        this.teclaAtaque = this.escena.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
+        this.teclaInteraccion = this.escena.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
     }
 
     override update() {

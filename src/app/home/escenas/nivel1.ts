@@ -28,12 +28,11 @@ export default class Nivel1 extends Phaser.Scene {
     private capasueloMapaNivel!: Phaser.Tilemaps.TilemapLayer;
     private background!: Phaser.GameObjects.Sprite;
     private flowey!: Phaser.GameObjects.Sprite;
-    private knife!: knife;
+    public knife!: knife;
     private laser: any;
     private bandaEnemigo01 !: BandaEnemigo;
     private bandaEnemigo02 !: BandaEnemigo;
     private bandaEnemigo03 !: BandaEnemigo;
-   
    
     puertas!: Puertas;
 
@@ -104,8 +103,7 @@ export default class Nivel1 extends Phaser.Scene {
             this.knife = new knife({
                 escena: this,
                 x: d.x,
-                y: d.y,
-                textura: this.add.image(d.x, d.y, 'knife')
+                y: d.y
             });  
         });
         this.physics.add.collider(this.knife, this.jugador);
@@ -349,18 +347,28 @@ export default class Nivel1 extends Phaser.Scene {
         var circulo_a = this.add.circle(this.ancho * .72, this.alto * .6, 15, 0x008000).setAlpha(0.6).setInteractive();
         var circulo_b = this.add.circle(this.ancho * .68, this.alto * .68, 15, 0xff0000).setAlpha(0.6).setInteractive();
         this.input.addPointer(1); //Para que pueda tener un segundo punto de entrada a la pantalla (un segundo control) 
-        this.botonpulsado(circulo_b);
+        this.botonpulsado(circulo_a, 'a');
+        this.botonpulsado(circulo_b, 'b');
         circulo_a.setScrollFactor(0);
         circulo_b.setScrollFactor(0);//Fijado a cámara
         var texto_circulo_a = this.add.text(this.ancho * .7155, this.alto * .582, 'A', miestilo);
         var texto_circulo_b = this.add.text(this.ancho * .6755, this.alto * .664, 'B', miestilo);
         texto_circulo_a.setScrollFactor(0);
         texto_circulo_b.setScrollFactor(0);
+
     }
 
-    botonpulsado(circulorojo: Phaser.GameObjects.Arc) {
-        circulorojo.on('pointerdown', () => {
+    botonpulsado(boton: Phaser.GameObjects.Arc, id: String) {
+        boton.on('pointerdown', () => {
             this.registry.set('botonpulsado', true);
+            if (id == 'a'){
+                if (this.knife.active=true){
+                    if ( this.knife.body.touching.down){
+                        console.log('Tocado abajo');
+                        this.knife.destroy();
+                    }
+                }
+            }
         });
     }
 
