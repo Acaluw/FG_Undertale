@@ -55,7 +55,10 @@ const Constantes = {
     JUGADOR:{
         ID: 'jugador',//Nombre de objeto en el tileset
         ANIMACION:{
-            ESPERAR: 'esperar', 
+            ESPERAR: 'esperar',
+            ESPERARD: 'esperar_derecha',
+            ESPERARI: 'esperar_izquierda',
+            ESPERARA: 'esperar_arriba', 
             ANDAR_DERECHA: 'andar_right',
             ANDAR_IZQUIERDA: 'andar_left',
             ANDAR_ARRIBA: 'andar_up',

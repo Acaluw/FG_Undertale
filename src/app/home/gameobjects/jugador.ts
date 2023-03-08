@@ -5,15 +5,14 @@ import Nivel1 from '../escenas/nivel1';
 export default class Jugador extends Phaser.Physics.Arcade.Sprite {
     //Control de entrada
     public cursores: Phaser.Types.Input.Keyboard.CursorKeys;
-
+    public tieneCuchillo: boolean;
     private escena: Nivel1;
     private velocidad: number;
-    public teclaInteraccion: Phaser.Input.Keyboard.Key;
-    public teclaAtaque: Phaser.Input.Keyboard.Key;
+    private direccionEsperar: number;
     
     constructor(config: any) { //se le pasa escena para utilizar los objetos que contiene
         super(config.escena, config.x, config.y, config.texture);
-
+        this.tieneCuchillo = false;
         this.escena = config.escena;//Importante: Necesito acceder a los objetos de la escena
         this.escena.physics.world.enable(this);//Activo físicas para este objeto
         this.setCollideWorldBounds(true);//Para que no se salga del mapa
@@ -28,8 +27,7 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
 
         //Control entrada
         this.cursores = this.escena.input.keyboard.createCursorKeys();
-        this.teclaAtaque = this.escena.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
-        this.teclaInteraccion = this.escena.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
+        this.direccionEsperar = 3;
     }
 
     override update() {
@@ -38,6 +36,7 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
             //console.log("Izquierda...");
             this.setVelocityX(this.velocidad * -1);
             this.setVelocityY(0);
+            this.direccionEsperar = 4;
             this.anims.play(Constantes.JUGADOR.ANIMACION.ANDAR_IZQUIERDA, true);
             return;
         } else if (this.cursores.right.isDown || this.escena.joystickCursors.right.isDown) {
@@ -45,25 +44,43 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
             this.setVelocityX(this.velocidad);
             this.setVelocityY(0);
             this.flipX = false;
+            this.direccionEsperar = 2;
             this.anims.play(Constantes.JUGADOR.ANIMACION.ANDAR_DERECHA, true);
             return;
         } else if (this.cursores.down.isDown || this.escena.joystickCursors.down.isDown) {
             //console.log("Abajo...");
             this.setVelocityY(this.velocidad);
             this.setVelocityX(0);
+            this.direccionEsperar = 3;
             this.anims.play(Constantes.JUGADOR.ANIMACION.ANDAR_ABAJO, true);
             return;
         } else if (this.cursores.up.isDown || this.escena.joystickCursors.up.isDown) { 
             //console.log("Arriba...");
             this.setVelocityY(this.velocidad * -1);
             this.setVelocityX(0);
+            this.direccionEsperar = 1;
             this.anims.play(Constantes.JUGADOR.ANIMACION.ANDAR_ARRIBA, true);
             return;
         } else { 
             //console.log("Esperando...");
             this.setVelocityX(0);
-            this.setVelocityY(0); // SIN GRAVEDAD: SI NO QUEREMOS gravedad hay que descomentar esta línea
-            this.anims.play(Constantes.JUGADOR.ANIMACION.ESPERAR, true);
+            this.setVelocityY(0);
+            switch (this.direccionEsperar) {
+                case 1:
+                    this.anims.play(Constantes.JUGADOR.ANIMACION.ESPERARA, true);
+                    break;
+                case 2:
+                    this.anims.play(Constantes.JUGADOR.ANIMACION.ESPERARD, true);
+                    break;
+                case 3:
+                    this.anims.play(Constantes.JUGADOR.ANIMACION.ESPERAR, true);
+                    break;
+                case 4:
+                    this.anims.play(Constantes.JUGADOR.ANIMACION.ESPERARI, true);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 

@@ -5,6 +5,7 @@ import HUD from './escenas/hud';
 import menuoptions from './escenas/menuoptions';
 import VirtualJoystickPlugin from 'phaser3-rex-plugins/plugins/virtualjoystick-plugin.js'; //npm i phaser3-rex-plugins
 
+
 const Configuracion = {
   type: Phaser.AUTO, //AUTO: Automáticamente elige WebGL o Canvas
 

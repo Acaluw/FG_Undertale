@@ -1,7 +1,6 @@
 import Constantes from "../constantes";
 import Jugador from '../gameobjects/jugador';
 import Puertas from "../gameobjects/puertas";
-import Miestilo from "../textos";
 import {Bala} from "../gameobjects/bala"
 import BandaEnemigo from "../gameobjects/bandaEnemigo";
 import bandaEnemigo from "../gameobjects/bandaEnemigo";
@@ -21,6 +20,7 @@ export default class Nivel1 extends Phaser.Scene {
     public ancho!: integer;
     public alto!: integer;
     private balase!: Phaser.GameObjects.Group;
+    private lanzaCuchillo!: Phaser.GameObjects.Group;
     public mapaNivel!: Phaser.Tilemaps.Tilemap;
     private lastFirede = 0;
     private mapaTileset!: Phaser.Tilemaps.Tileset;
@@ -80,9 +80,13 @@ export default class Nivel1 extends Phaser.Scene {
             maxSize: 3,
             runChildUpdate: true
         });
+        this.lanzaCuchillo = this.physics.add.group({
+            classType: knife,
+            maxSize: 1,
+            runChildUpdate: true
+        });
 
         //Se añade el mapa
-
         //Se añaden las capas
         this.capasueloMapaNivel = this.mapaNivel.createLayer(Constantes.MAPAS.NIVEL1.CAPACOLISIONES, this.mapaTileset); //Crea la capa 
         this.capasueloMapaNivel.setCollisionByExclusion([-1]);//Hacemos la capa colisionable
@@ -98,7 +102,8 @@ export default class Nivel1 extends Phaser.Scene {
             });
         });
 
-        //Misceláneo
+        //Se añaden objetos
+        //Arma cuchillo
         this.mapaNivel.findObject('knife', (d: any) =>{
             this.knife = new knife({
                 escena: this,
@@ -181,7 +186,7 @@ export default class Nivel1 extends Phaser.Scene {
             this.flowey.scaleX = 1;
             this.flowey.scaleY = 1;
         });
-
+        //Animacion de movimiento de enemigo01
         this.anims.create({
             key: Constantes.ENEMIGO01.ANIMACION.GESTOS,
             frames: this.anims.generateFrameNames(Constantes.ENEMIGO01.ID, {
@@ -192,7 +197,7 @@ export default class Nivel1 extends Phaser.Scene {
             frameRate: 2,
             repeat: -1
         });
-
+        //Animacion de movimiento de enemigo02
         this.anims.create({
             key: Constantes.ENEMIGO02.ANIMACION.GESTOS,
             frames: this.anims.generateFrameNames(Constantes.ENEMIGO02.ID, {
@@ -203,7 +208,7 @@ export default class Nivel1 extends Phaser.Scene {
             frameRate: 2,
             repeat: -1
         });
-
+        //Animacion de movimiento de enemigo03
         this.anims.create({
             key: Constantes.ENEMIGO03.ANIMACION.GESTOS,
             frames: this.anims.generateFrameNames(Constantes.ENEMIGO03.ID, {
@@ -221,88 +226,117 @@ export default class Nivel1 extends Phaser.Scene {
             key: Constantes.GUARDAR.ANIMACION.MOVIMIENTO,
             frames: this.anims.generateFrameNames(Constantes.GUARDAR.ID, {
                 start: 1,
-                prefix: "sprite", //Prefijo de los sprites
+                prefix: "sprite",
                 end: 2
             }),
-            frameRate: 3, //frames por segundo
-            repeat: -1 //Num repeticiones. -1: Repite siempre. Da igual lo que pongamos porque llamamos a las animaciones constantemente
+            frameRate: 3,
+            repeat: -1
         });
 
         this.mapaNivel.findObject(Constantes.GUARDAR.ID, (d: any) =>{
             const save = this.add.sprite(d.x, d.y, Constantes.GUARDAR.ID, 'sprite1');
-            save.anims.play(Constantes.GUARDAR.ANIMACION.MOVIMIENTO, true);//Animará una única vez ya que repeat=0 en la configuración
+            save.anims.play(Constantes.GUARDAR.ANIMACION.MOVIMIENTO, true);
             save.scaleX = 1;
             save.scaleY = 1;
         });
         //////////////////////////////////////////////////////
 
         //////////////////////////////////////////////////////
-        //ANIMACIONES PERSONAJE
+        //Animacion esperar mirando abajo
         this.anims.create({
             key: Constantes.JUGADOR.ANIMACION.ESPERAR,
             frames: this.anims.generateFrameNames(Constantes.JUGADOR.ID, {
                 start: 1,
-                prefix: "sprite", //Prefijo de los sprites
+                prefix: "sprite",
                 end: 1
             }),
-            frameRate: 1, //frames por segundo
-            repeat: 2 //Num repeticiones. -1: Repite siempre. Da igual lo que pongamos porque llamamos a las animaciones constantemente
+            frameRate: 1, 
+            repeat: 2 
         });
-
-        
+        //Animacion esperar mirando a la derecha
+        this.anims.create({
+            key: Constantes.JUGADOR.ANIMACION.ESPERARD,
+            frames: this.anims.generateFrameNames(Constantes.JUGADOR.ID, {
+                start: 7,
+                prefix: "sprite",
+                end: 7
+            }),
+            frameRate: 1,
+            repeat: 2
+        });
+        //Animacion esperar mirando hacia arriba
+        this.anims.create({
+            key: Constantes.JUGADOR.ANIMACION.ESPERARA,
+            frames: this.anims.generateFrameNames(Constantes.JUGADOR.ID, {
+                start: 9,
+                prefix: "sprite",
+                end: 9
+            }),
+            frameRate: 1,
+            repeat: 2 
+        });
+        //Animacion esperar mirando hacia la izquierda
+        this.anims.create({
+            key: Constantes.JUGADOR.ANIMACION.ESPERARI,
+            frames: this.anims.generateFrameNames(Constantes.JUGADOR.ID, {
+                start: 5,
+                prefix: "sprite",
+                end: 5
+            }),
+            frameRate: 1,
+            repeat: 2 
+        });
+        //Animacion andar hacia la izquierda
         this.anims.create({
             key: Constantes.JUGADOR.ANIMACION.ANDAR_IZQUIERDA,
             frames: this.anims.generateFrameNames(Constantes.JUGADOR.ID, {
                 start: 5,
-                prefix: "sprite", //Prefijo de los sprites
+                prefix: "sprite",
                 end: 6
             }),
-            frameRate: 5, //frames por segundo
-            repeat: 2 //Num repeticiones. -1: Repite siempre. Da igual lo que pongamos porque llamamos a las animaciones constantemente
+            frameRate: 5,
+            repeat: 2
         });
-
+        //Animacion andar hacia la derecha
         this.anims.create({
             key: Constantes.JUGADOR.ANIMACION.ANDAR_DERECHA,
             frames: this.anims.generateFrameNames(Constantes.JUGADOR.ID, {
                 start: 7,
-                prefix: "sprite", //Prefijo de los sprites
+                prefix: "sprite", 
                 end: 8
             }),
-            frameRate: 5, //frames por segundo
-            repeat: 2 //Num repeticiones. -1: Repite siempre. Da igual lo que pongamos porque llamamos a las animaciones constantemente
+            frameRate: 5,
+            repeat: 2 
         });
-
+        //Animacion andar hacia arriba
         this.anims.create({
             key: Constantes.JUGADOR.ANIMACION.ANDAR_ARRIBA,
             frames: this.anims.generateFrameNames(Constantes.JUGADOR.ID, {
                 start: 9,
-                prefix: "sprite", //Prefijo de los sprites
+                prefix: "sprite",
                 end: 12
             }),
-            frameRate: 5, //frames por segundo
-            repeat: 2 //Num repeticiones. -1: Repite siempre. Da igual lo que pongamos porque llamamos a las animaciones constantemente
+            frameRate: 5, 
+            repeat: 2
         });
-
+        //Animacion andar hacia abajo
         this.anims.create({
             key: Constantes.JUGADOR.ANIMACION.ANDAR_ABAJO,
             frames: this.anims.generateFrameNames(Constantes.JUGADOR.ID, {
                 start: 1,
-                prefix: "sprite", //Prefijo de los sprites
+                prefix: "sprite",
                 end: 4
             }),
-            frameRate: 5, //frames por segundo
-            repeat: 2 //Num repeticiones. -1: Repite siempre. Da igual lo que pongamos porque llamamos a las animaciones constantemente
+            frameRate: 5, 
+            repeat: 2
         });
         //////////////////////////////////////////////////////
 
 
-        //las cámaras siguen al jugador
-           //Se configura la camara. Hacemos que siga al jugador
-           this.cameras.main.setBounds(0, 0, this.mapaNivel.widthInPixels, this.mapaNivel.heightInPixels);
-           this.cameras.main.zoom=2;
-           this.cameras.main.startFollow(this.jugador);
-           
-
+        //Configuracion de camara
+        this.cameras.main.setBounds(0, 0, this.mapaNivel.widthInPixels, this.mapaNivel.heightInPixels);
+        this.cameras.main.zoom=2;
+        this.cameras.main.startFollow(this.jugador);
 
         //FÍSICAS OBJETOS
         //Se añade la física del jugador con el nivel
@@ -310,7 +344,6 @@ export default class Nivel1 extends Phaser.Scene {
         this.bandaEnemigo01 = new bandaEnemigo(this, Constantes.MAPAS.NIVEL1.ENEMIGO01, Constantes.ENEMIGO01.ID, Constantes.ENEMIGO01.ANIMACION.GESTOS, 50);
         this.bandaEnemigo02 = new bandaEnemigo(this, Constantes.MAPAS.NIVEL1.ENEMIGO02, Constantes.ENEMIGO02.ID, Constantes.ENEMIGO02.ANIMACION.GESTOS, 50);
         this.bandaEnemigo03 = new bandaEnemigo(this, Constantes.MAPAS.NIVEL1.ENEMIGO03, Constantes.ENEMIGO03.ID, Constantes.ENEMIGO03.ANIMACION.GESTOS, 50);
-       
         
         this.physics.add.collider(this.bandaEnemigo01, this.capasueloMapaNivel);
         this.physics.add.collider(this.bandaEnemigo02, this.capasueloMapaNivel);
@@ -330,7 +363,6 @@ export default class Nivel1 extends Phaser.Scene {
         this.events.emit(Constantes.EVENTOS.PUNTUACION);
         this.registry.set(Constantes.REGISTRO.VIDAS, this.vidas);
         this.events.emit(Constantes.EVENTOS.VIDAS);
-
 
         //Joystick
         this.mijoystick = this.joystick.add(this.scene, {
@@ -356,20 +388,35 @@ export default class Nivel1 extends Phaser.Scene {
         texto_circulo_a.setScrollFactor(0);
         texto_circulo_b.setScrollFactor(0);
 
+        //Configuracion tecla interaccion
+        this.input.keyboard.on('keydown-C', () => {
+            this.comprobarInteraccionConObjetos();
+        });
+
+        this.input.keyboard.on('keydown-X', () => {
+            if(this.jugador.tieneCuchillo){
+                //Configura disparo
+                console.log('Lanza cuchillo');
+            }
+        });
     }
 
     botonpulsado(boton: Phaser.GameObjects.Arc, id: String) {
         boton.on('pointerdown', () => {
             this.registry.set('botonpulsado', true);
             if (id == 'a'){
-                if (this.knife.active=true){
-                    if ( this.knife.body.touching.down){
-                        console.log('Tocado abajo');
-                        this.knife.destroy();
-                    }
-                }
+                this.comprobarInteraccionConObjetos();
             }
         });
+    }
+
+    comprobarInteraccionConObjetos(){
+        if (this.knife.visible == true){
+            if ((Math.abs(this.jugador.body.x - this.knife.body.x)) <= 20  || (Math.abs(this.jugador.body.y - this.knife.body.y)) <= 16) {
+                this.jugador.tieneCuchillo = true;
+                this.knife.destroy();
+            }
+        }
     }
 
     colision(jugador: Phaser.Physics.Arcade.Sprite, enemigo: Phaser.Physics.Arcade.Sprite): void {
@@ -380,7 +427,6 @@ export default class Nivel1 extends Phaser.Scene {
     }
 
     override update(time: any, delta: number) {//Se ejecuta cada x milisegundos
-        
         this.jugador.update();//Se tiene que llamar al update de cada elemento
         this.bandaEnemigo01.update(time,delta)
         this.bandaEnemigo02.update(time,delta)
@@ -389,7 +435,6 @@ export default class Nivel1 extends Phaser.Scene {
             this.lastFirede = time + 500; //Tiempo entre balas
             var bala = this.balase.get();//Coge del pool
             if (bala) {
-                
                 if(Math.abs(this.flowey.y - this.jugador.y) <= 200 ){
                     this.laser.play();
                     bala.fire(this.flowey.x, this.flowey.y, 1);//Dispara hacia arriba
