@@ -452,6 +452,29 @@
         }, 
         {
          "draworder":"topdown",
+         "id":15,
+         "name":"candy",
+         "objects":[
+                {
+                 "class":"",
+                 "height":0,
+                 "id":52,
+                 "name":"candy",
+                 "point":true,
+                 "rotation":0,
+                 "visible":true,
+                 "width":0,
+                 "x":3104,
+                 "y":648.333333333333
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
          "id":11,
          "name":"enemigo01",
          "objects":[
@@ -896,8 +919,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":15,
- "nextobjectid":52,
+ "nextlayerid":16,
+ "nextobjectid":53,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.2",

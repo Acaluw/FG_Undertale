@@ -17,7 +17,7 @@ export default class Puertas extends Phaser.Physics.Arcade.Group {
 
         /*this.children.entries.map((puerta: any) =>{
            // puerta.body.setCollideWorldBounds(true);
-            puerta.setTexture(Constantes.JUGADOR.ANIMACION.ESPERAR);
+            puerta.setTexture('puertaIcon');
         });*/
     }
 

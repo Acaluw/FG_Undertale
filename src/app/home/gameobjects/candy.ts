@@ -1,11 +1,10 @@
 import Nivel1 from "../escenas/nivel1";
 
-
-export default class Knife extends Phaser.Physics.Arcade.Image {
+export default class Candy extends Phaser.Physics.Arcade.Image {
     private escena: Nivel1;
 
     constructor(config: any) { //se le pasa escena para utilizar los objetos que contiene
-        super(config.escena, config.x, config.y, 'knife', 0);
+        super(config.escena, config.x, config.y, 'candy', 0);
         this.escena = config.escena;
         this.escena.physics.world.enable(this);//Activo físicas para este objeto
         this.setImmovable(true);

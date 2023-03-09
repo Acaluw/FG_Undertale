@@ -6,6 +6,7 @@ import BandaEnemigo from "../gameobjects/bandaEnemigo";
 import bandaEnemigo from "../gameobjects/bandaEnemigo";
 import menuoptions from "./menuoptions";
 import knife from "../gameobjects/knife";
+import Candy from "../gameobjects/candy";
 interface Datos {
     x: number | undefined;
     y: number | undefined;
@@ -29,6 +30,7 @@ export default class Nivel1 extends Phaser.Scene {
     private background!: Phaser.GameObjects.Sprite;
     private flowey!: Phaser.GameObjects.Sprite;
     public knife!: knife;
+    public candy!: Candy;
     private laser: any;
     private bandaEnemigo01 !: BandaEnemigo;
     private bandaEnemigo02 !: BandaEnemigo;
@@ -112,7 +114,15 @@ export default class Nivel1 extends Phaser.Scene {
             });  
         });
         this.physics.add.collider(this.knife, this.jugador);
-        
+        //Objeto caramelos
+        this.mapaNivel.findObject('candy', (d:any) => {
+            this.candy = new Candy({
+                escena: this,
+                x: d.x,
+                y: d.y
+            });
+        });
+        this.physics.add.collider(this.candy, this.jugador);
 
         //SONIDOS
         var musica = this.sound.add('musica',{volume: menuoptions.ambientSound/100});
