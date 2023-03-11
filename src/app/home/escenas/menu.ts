@@ -1,6 +1,7 @@
 import Constantes from "../constantes";
 import menuoptions from "./menuoptions";
 
+
 export default class Menu extends Phaser.Scene {
 
     public static musica: any;
@@ -29,6 +30,7 @@ export default class Menu extends Phaser.Scene {
         const member_javier = this.add.image(120, alto-20, 'member_javier');
         const member_juan = this.add.image(ancho/2, alto-20, 'member_juan');
         const member_alvaro = this.add.image(ancho-120, alto-20, 'member_alvaro');
+
         
         //Ajustes de elementos
         title.scaleX = 0.5;

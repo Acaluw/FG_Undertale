@@ -12,7 +12,100 @@ interface Datos {
     y: number | undefined;
     salida: String;
     direccion: String;
-  }
+}
+// Plugin de dialogo
+////////////////////////////////////////////////////////////////////////////////////
+const COLOR_PRIMARY = 0x616161;
+const COLOR_LIGHT = 0xffffff;
+
+const GetValue = Phaser.Utils.Objects.GetValue;
+var circulo_a: Phaser.GameObjects.Arc;
+var interactuaC = false;
+var textBox: any; 
+
+var createTextBox = function (scene: any, x: number, y: number, config: object) {
+    var wrapWidth = GetValue(config, 'wrapWidth', 0);
+    var fixedWidth = GetValue(config, 'fixedWidth', 0);
+    var fixedHeight = GetValue(config, 'fixedHeight', 0);
+    textBox = scene.rexUI.add.textBox({
+            x: x,
+            y: y,
+
+            background: scene.rexUI.add.roundRectangle(0, 0, 2, 2, 20, COLOR_PRIMARY)
+                .setStrokeStyle(2, COLOR_LIGHT),
+
+            icon: scene.add.image(0, 0, 'playerIcon'),
+
+            text: getBBcodeText(scene, wrapWidth, fixedWidth, fixedHeight),
+
+            action: scene.add.image(0, 0, 'arrow').setTint(COLOR_LIGHT).setVisible(false),
+
+            space: {
+                left: 20,
+                right: 20,
+                top: 20,
+                bottom: 20,
+                icon: 10,
+                text: 10,
+            }
+        })
+        .setOrigin(0)
+        .layout();
+
+    textBox.setInteractive().on('pointerdown', () => {
+            var icon = textBox.getElement('action').setVisible(false);
+            textBox.resetChildVisibleState(icon);
+            if (textBox.isTyping && interactuaC == true) {
+                textBox.stop(true);
+            }
+            else if (textBox.isLastPage && interactuaC == true) {
+                textBox.destroy();
+                interactuaC = false;
+            }
+            else {
+                if (interactuaC == true){
+                    textBox.typeNextPage();
+                }
+                
+            }
+        }, textBox)
+        .on('pageend', function () {
+            if (textBox.isLastPage && !textBox.isTyping) {
+                return;
+            }
+
+            var icon = textBox.getElement('action').setVisible(true);
+            textBox.resetChildVisibleState(icon);
+            icon.y -= 30;
+            var tween = scene.tweens.add({
+                targets: icon,
+                y: '+=30', // '+=100'
+                ease: 'Bounce', // 'Cubic', 'Elastic', 'Bounce', 'Back'
+                duration: 500,
+                repeat: 0, // -1: infinity
+                yoyo: false
+            });
+        }, textBox)
+    //.on('type', function () {
+    //})
+
+    return textBox;
+}
+
+var getBBcodeText = function (scene: { rexUI: { add: { BBCodeText: (arg0: number, arg1: number, arg2: string, arg3: { fixedWidth: any; fixedHeight: any; fontSize: string; wrap: { mode: string; width: any; }; maxLines: number; }) => any; }; }; }, wrapWidth: any, fixedWidth: any, fixedHeight: any) {
+    return scene.rexUI.add.BBCodeText(0, 0, '', {
+        fixedWidth: fixedWidth,
+        fixedHeight: fixedHeight,
+
+        fontSize: '20px',
+        wrap: {
+            mode: 'word',
+            width: wrapWidth
+        },
+        maxLines: 2
+    })
+}
+////////////////////////////////////////////////////////////////////////////////////
 
 export default class Nivel1 extends Phaser.Scene {
 
@@ -35,10 +128,8 @@ export default class Nivel1 extends Phaser.Scene {
     private bandaEnemigo01 !: BandaEnemigo;
     private bandaEnemigo02 !: BandaEnemigo;
     private bandaEnemigo03 !: BandaEnemigo;
-   
     puertas!: Puertas;
 
-      
     public datosPuertas: { [key: string]: Datos } = {};
 
 
@@ -55,6 +146,12 @@ export default class Nivel1 extends Phaser.Scene {
 
     preload() //Ejecuta una única vez la precarga de los assets
     {
+        //Si no se carga al ser un scenePlugin, se debe cargar como tal aqui
+        this.load.scenePlugin({
+            key: 'rexuiplugin',
+            url: 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js',
+            sceneKey: 'rexUI'
+        });
     }
 
     create() //Crea escena
@@ -386,7 +483,7 @@ export default class Nivel1 extends Phaser.Scene {
         this.joystickCursors = this.mijoystick.createCursorKeys();
 
         //Botones independientes
-        var circulo_a = this.add.circle(this.ancho * .72, this.alto * .6, 15, 0x008000).setAlpha(0.6).setInteractive();
+        circulo_a = this.add.circle(this.ancho * .72, this.alto * .6, 15, 0x008000).setAlpha(0.6).setInteractive();
         var circulo_b = this.add.circle(this.ancho * .68, this.alto * .68, 15, 0xff0000).setAlpha(0.6).setInteractive();
         this.input.addPointer(1); //Para que pueda tener un segundo punto de entrada a la pantalla (un segundo control) 
         this.botonpulsado(circulo_a, 'a');
@@ -400,13 +497,14 @@ export default class Nivel1 extends Phaser.Scene {
 
         //Configuracion tecla interaccion
         this.input.keyboard.on('keydown-C', () => {
-            this.comprobarInteraccionConObjetos();
+            this.comprobarInteraccionConObjetos(this.ancho, this.alto);
         });
 
         this.input.keyboard.on('keydown-X', () => {
             if(this.jugador.tieneCuchillo){
                 //Configura disparo
                 console.log('Lanza cuchillo');
+                
             }
         });
     }
@@ -415,12 +513,22 @@ export default class Nivel1 extends Phaser.Scene {
         boton.on('pointerdown', () => {
             this.registry.set('botonpulsado', true);
             if (id == 'a'){
-                this.comprobarInteraccionConObjetos();
+                this.comprobarInteraccionConObjetos(this.ancho, this.alto);
             }
         });
     }
 
-    comprobarInteraccionConObjetos(){
+    comprobarInteraccionConObjetos(ancho: number, alto: number){
+        if (interactuaC == false){
+            interactuaC = true;
+            createTextBox(this, this.jugador.x -80, this.jugador.y, {
+                wrapWidth: 200,
+                fixedWidth: 200,
+                fixedHeight: 40,
+            })
+            .start('hola buenas tardes que tal todo bien si no', 50);
+        }
+        
         if (this.knife.visible == true){
             if ((Math.abs(this.jugador.body.x - this.knife.body.x)) <= 20  || (Math.abs(this.jugador.body.y - this.knife.body.y)) <= 16) {
                 this.jugador.tieneCuchillo = true;

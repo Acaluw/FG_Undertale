@@ -81,6 +81,8 @@ export default class CargaDatos extends Phaser.Scene {
         this.load.image('candy', 'assets/imagenes/candy.png');
         this.load.image('bala', './assets/imagenes/tear.png');
         this.load.image('puertaIcon', './assets/imagenes/puertaIcon.png');
+        this.load.image('arrow', 'assets/imagenes/arrow-down.png');
+        this.load.image('playerIcon', 'assets/imagenes/playerIcon.png');
         //Atlas Enemigos
         this.load.atlas(Constantes.FLOWEY.ID, 'assets/imagenes/enemigos/flowey/spritesheet.png', 'assets/imagenes/enemigos/flowey/spritesheet.json');
         this.load.atlas(Constantes.ENEMIGO01.ID, 'assets/imagenes/enemigos/varios/spritesheetM01.png', 'assets/imagenes/enemigos/varios/spritesheetM01.json');

@@ -34,7 +34,7 @@ const Configuracion = {
         plugin: VirtualJoystickPlugin,
         start: true,
         mapping: 'joystick' //nombre de variable de mapeo en la clase donde se usará
-    }]
+    }],
 }
 };
 
