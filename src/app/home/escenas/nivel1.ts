@@ -21,13 +21,12 @@ const COLOR_LIGHT = 0xffffff;
 const GetValue = Phaser.Utils.Objects.GetValue;
 var circulo_a: Phaser.GameObjects.Arc;
 var interactuaC = false;
-var textBox: any; 
 
 var createTextBox = function (scene: any, x: number, y: number, config: object) {
     var wrapWidth = GetValue(config, 'wrapWidth', 0);
     var fixedWidth = GetValue(config, 'fixedWidth', 0);
     var fixedHeight = GetValue(config, 'fixedHeight', 0);
-    textBox = scene.rexUI.add.textBox({
+    var textBox = scene.rexUI.add.textBox({
             x: x,
             y: y,
 
@@ -139,6 +138,7 @@ export default class Nivel1 extends Phaser.Scene {
     private joystick: any;//Variable de mapeo del plugin JOYSTICK
     private mijoystick: any;//Variable mapeada  del plugin JOYSTICK
     public joystickCursors: any;//Cursores virtuales para poder utilizar en JUGADOR.TS
+    private dialogbox: any;
 
     constructor() {
         super(Constantes.ESCENAS.NIVEL1);
@@ -521,7 +521,7 @@ export default class Nivel1 extends Phaser.Scene {
     comprobarInteraccionConObjetos(ancho: number, alto: number){
         if (interactuaC == false){
             interactuaC = true;
-            createTextBox(this, this.jugador.x -80, this.jugador.y, {
+            createTextBox(this, this.jugador.x-180, this.jugador.y-90, {
                 wrapWidth: 200,
                 fixedWidth: 200,
                 fixedHeight: 40,
@@ -530,7 +530,7 @@ export default class Nivel1 extends Phaser.Scene {
         }
         
         if (this.knife.visible == true){
-            if ((Math.abs(this.jugador.body.x - this.knife.body.x)) <= 20  || (Math.abs(this.jugador.body.y - this.knife.body.y)) <= 16) {
+            if ((Math.abs(this.jugador.body.x - this.knife.body.x)) <= 20  && (Math.abs(this.jugador.body.y - this.knife.body.y)) <= 16) {
                 this.jugador.tieneCuchillo = true;
                 this.knife.destroy();
             }
@@ -545,7 +545,15 @@ export default class Nivel1 extends Phaser.Scene {
     }
 
     override update(time: any, delta: number) {//Se ejecuta cada x milisegundos
+
         this.jugador.update();//Se tiene que llamar al update de cada elemento
+        if (interactuaC == false){
+            this.input.keyboard.enabled = true;
+        } else{
+            this.input.keyboard.enabled = false;
+            this.jugador.setVelocity(0,0);
+            this.jugador.anims.stop();
+        }
         this.bandaEnemigo01.update(time,delta)
         this.bandaEnemigo02.update(time,delta)
         this.bandaEnemigo03.update(time,delta)
