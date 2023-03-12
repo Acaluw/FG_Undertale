@@ -36,23 +36,19 @@ export default class CargaDatos extends Phaser.Scene {
             this
         );
         
-
         //Listener cuando se hayan cargado (COMPLETE) todos los Assets. Usa función lambda
         this.load.on(
             'complete', () => { //arrow-function o función lambda
                 this.scene.start(Constantes.ESCENAS.MENU); //Salta a la escena de Menú
             },
-
         );
 
-
         //CARGA DE ASSETS
-       
         //Mapas
         this.load.tilemapTiledJSON(Constantes.MAPAS.NIVEL1.TILEMAPJSON, 'assets/mapas/Principio/maparuinasv2.json');
         this.load.image(Constantes.MAPAS.TILESET, 'assets/mapas/Principio/maparuinas.png');
-
         //Fondos e imágenes
+        this.load.image('menu_background_parallax', 'assets/imagenes/menu/background_parallax.png');
         this.load.image('menu_background', 'assets/imagenes/menu/background.png');
         this.load.image(Constantes.FONDOS.LOGO, 'assets/imagenes/menu/menulogo.png');
         this.load.image('menu_subtitle', 'assets/imagenes/menu/menu_subtitle.png');
@@ -70,9 +66,11 @@ export default class CargaDatos extends Phaser.Scene {
         this.load.image('menu_ambient_vol', 'assets/imagenes/menu/menu_ambientVol.png');
         this.load.image('menu_effects_vol', 'assets/imagenes/menu/menu_effectsVol.png');
         this.load.atlas('menu_options_button', 'assets/imagenes/menu/spritesheetBtn.png', 'assets/imagenes/menu/spritesheetBtn.json');
-
+        this.load.image('game_over', 'assets/imagenes/game_over.png');
         //Fuente
         this.load.bitmapFont(Constantes.FUENTES.NOMBREFUENTE, 'assets/fuentes/gothic.png', 'assets/fuentes/gothic.xml');
+        //Particulas
+        this.load.atlas('flares', 'assets/imagenes/particulas/flares.png', 'assets/imagenes/particulas/flares.json');
         //Atlas Jugador
         this.load.atlas(Constantes.JUGADOR.ID, 'assets/imagenes/jugador/spritesheet.png', 'assets/imagenes/jugador/spritesheet.json');
         this.load.atlas(Constantes.GUARDAR.ID, 'assets/imagenes/miscelaneo/guardar/spritesheet.png', 'assets/imagenes/miscelaneo/guardar/spritesheet.json');
@@ -80,7 +78,7 @@ export default class CargaDatos extends Phaser.Scene {
         this.load.image('knife', 'assets/imagenes/knife.png');
         this.load.image('candy', 'assets/imagenes/candy.png');
         this.load.image('bala', './assets/imagenes/tear.png');
-        this.load.image('puertaIcon', './assets/imagenes/puertaIcon.png');
+        this.load.image('puerta', './assets/imagenes/puerta.png');
         this.load.image('arrow', 'assets/imagenes/arrow-down.png');
         this.load.image('playerIcon', 'assets/imagenes/playerIcon.png');
         //Atlas Enemigos
@@ -88,18 +86,15 @@ export default class CargaDatos extends Phaser.Scene {
         this.load.atlas(Constantes.ENEMIGO01.ID, 'assets/imagenes/enemigos/varios/spritesheetM01.png', 'assets/imagenes/enemigos/varios/spritesheetM01.json');
         this.load.atlas(Constantes.ENEMIGO02.ID, 'assets/imagenes/enemigos/varios/spritesheetM02.png', 'assets/imagenes/enemigos/varios/spritesheetM02.json');
         this.load.atlas(Constantes.ENEMIGO03.ID, 'assets/imagenes/enemigos/varios/spritesheetM03.png', 'assets/imagenes/enemigos/varios/spritesheetM03.json');
-
-        //Atlas Enemigo - Mynock
-        
         //Carga de sonidos
         this.load.audio('musica', 'assets/audio/musica/ruinas.mp3');
         this.load.audio('menunusic', 'assets/audio/musica/menu.mp3');
         this.load.audio('laser', 'assets/audio/musica/laser.mp3');
+        this.load.audio('game_over_sound', 'assets/audio/musica/game_over.mp3');
     }
     private creaBarras(): void {
         this.barraC = this.add.graphics();
         this.barraC.fillStyle(0xffffff, 1);//color,alfa
-
 
         this.barraC.fillRect(
             this.cameras.main.width / 4 - 2, //x de rectángulo
@@ -108,9 +103,4 @@ export default class CargaDatos extends Phaser.Scene {
             20 //alto
         );
     }
-
-    
-        
-
-
 }

@@ -25,6 +25,7 @@ export default class menuoptions extends Phaser.Scene {
         this.cameras.main.fadeIn(150, 0, 0, 0);
 
         //Declaración de elementos del menú
+        const background_parallax = this.add.image(ancho / 2, alto / 2, 'menu_background_parallax');
         const background = this.add.image(ancho / 2, alto / 2, 'menu_background');
         const optionsTitle = this.add.image((ancho/2), alto/8, 'menu_options_title');
         const border = this.add.image(ancho/2, alto/2, 'menu_options_border');

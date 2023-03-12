@@ -1,6 +1,7 @@
 import { Game } from 'phaser';
 import Constantes from '../constantes';
 import { BalaSimple } from './bala';
+import Nivel1 from '../escenas/nivel1';
 
 
 export default class BandaEnemigo extends Phaser.Physics.Arcade.Group {
@@ -36,7 +37,7 @@ export default class BandaEnemigo extends Phaser.Physics.Arcade.Group {
 
         //Mediante entries modifico todos los objetos creados
         this.children.entries.map((enemigo: any) => {
-            enemigo.body.setCollideWorldBounds(true);//Importante para indicarle que no se salga del mapa
+            enemigo.body.setCollideWorldBounds(true);
             enemigo.ultimodisparo=0;
 
             if (idObjeto == 'enemigo01'){
@@ -62,14 +63,14 @@ export default class BandaEnemigo extends Phaser.Physics.Arcade.Group {
                 runChildUpdate: true //permite actualizar el estado de la clase Bala,
             });
             //Se añade collider
-            escena.physics.add.collider(this.jugador, enemigo.balas, this.colision as ArcadePhysicsCallback, undefined, this);//el 4º parámetro indica si está activa la colisión o no
+            escena.physics.add.collider(this.jugador, enemigo.balas, this.colision as ArcadePhysicsCallback, undefined, this);
 
         });
         
     }
 
     colision(jugador: Phaser.Physics.Arcade.Sprite, enemigo: Phaser.Physics.Arcade.Sprite): void {
-        console.log('COLISION!!!!!!!!!!!!!!!!!!!!');
+        Nivel1.vidas--;
         enemigo.destroy();//destruye la bala y vuelve al pool
     }
 
@@ -89,7 +90,7 @@ export default class BandaEnemigo extends Phaser.Physics.Arcade.Group {
         this.children.entries.map((enemigo: any) => {
             
             enemigo.anims.play(this.nombreanimacion, true);
-            if (enemigo.body.velocity.y === 0) { //El único momento donde velocidad es 0 es tras haberlo creado
+            if (enemigo.body.velocity.y === 0) {
                 
                 enemigo.sentido = (Phaser.Math.Between(0, 1) ? 'arriba' : 'abajo');
                 this.mueveEnemigo(enemigo.sentido, enemigo);

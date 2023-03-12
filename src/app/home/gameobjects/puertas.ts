@@ -9,19 +9,19 @@ export default class Puertas extends Phaser.Physics.Arcade.Group {
         super(escena.physics.world, escena);
 
         this.escena = escena;
-        //this.addMultiple(escena.mapaNivel.createFromObjects(nombreCapaObjeto, { name: idObjeto}));
         this.addMultiple(escena.mapaNivel.createFromObjects(nombreCapaObjeto));
-
         //añadimos física
         this.escena.physics.world.enable(this.children.entries);
 
-        /*this.children.entries.map((puerta: any) =>{
-           // puerta.body.setCollideWorldBounds(true);
-            puerta.setTexture('puertaIcon');
-        });*/
+        this.children.entries.map((puerta: any) =>{
+            puerta.setTexture('puerta');
+            puerta.scale = 2;
+            puerta.body.setSize(0, 0);
+            puerta.body.setOffset(0, 0);
+        });
     }
 
-     public update(): void {
-       
+    public update(): void {
+        
     }
 }

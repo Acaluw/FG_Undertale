@@ -15,6 +15,7 @@ interface Datos {
     salida: String;
     direccion: String;
 }
+
 // Plugin de dialogo
 ////////////////////////////////////////////////////////////////////////////////////
 const COLOR_PRIMARY = 0x616161;
@@ -23,6 +24,7 @@ const COLOR_LIGHT = 0xffffff;
 const GetValue = Phaser.Utils.Objects.GetValue;
 var circulo_a: Phaser.GameObjects.Arc;
 var interactuaC = false;
+var finjuegoComprobante = false;
 
 var createTextBox = function (scene: any, x: number, y: number, config: object) {
     var wrapWidth = GetValue(config, 'wrapWidth', 0);
@@ -80,16 +82,13 @@ var createTextBox = function (scene: any, x: number, y: number, config: object) 
             icon.y -= 30;
             var tween = scene.tweens.add({
                 targets: icon,
-                y: '+=30', // '+=100'
-                ease: 'Bounce', // 'Cubic', 'Elastic', 'Bounce', 'Back'
+                y: '+=30',
+                ease: 'Bounce',
                 duration: 500,
-                repeat: 0, // -1: infinity
+                repeat: 0,
                 yoyo: false
             });
         }, textBox)
-    //.on('type', function () {
-    //})
-
     return textBox;
 }
 
@@ -129,17 +128,19 @@ export default class Nivel1 extends Phaser.Scene {
     private bandaEnemigo01 !: BandaEnemigo;
     private bandaEnemigo02 !: BandaEnemigo;
     private bandaEnemigo03 !: BandaEnemigo;
+    private emitterCuchillo: any;
+    private emitterCaramelo: any;
     puertas!: Puertas;
 
     public datosPuertas: { [key: string]: Datos } = {};
 
 
     public puntuacion!: number;
-    public vidas!: number;
+    public static vidas: number;
 
-    private joystick: any;//Variable de mapeo del plugin JOYSTICK
-    private mijoystick: any;//Variable mapeada  del plugin JOYSTICK
-    public joystickCursors: any;//Cursores virtuales para poder utilizar en JUGADOR.TS
+    private joystick: any;
+    private mijoystick: any;
+    public joystickCursors: any;
     private dialogbox: any;
 
     private balasj!: Phaser.GameObjects.Group;//Balas jugador
@@ -149,7 +150,7 @@ export default class Nivel1 extends Phaser.Scene {
         super(Constantes.ESCENAS.NIVEL1);
     }
 
-    preload() //Ejecuta una única vez la precarga de los assets
+    preload()
     {
         //Si no se carga al ser un scenePlugin, se debe cargar como tal aqui
         this.load.scenePlugin({
@@ -159,13 +160,16 @@ export default class Nivel1 extends Phaser.Scene {
         });
     }
 
-    create() //Crea escena
+    create()
     {   
         var miestilo = {
             fill: '#ffffff',
             fontFamily: 'monospace',
             lineSpacing: 4
         };
+
+        interactuaC = false;
+        finjuegoComprobante = false;
 
         this.ancho = this.sys.game.canvas.width;
         this.alto = this.sys.game.canvas.height;
@@ -226,6 +230,32 @@ export default class Nivel1 extends Phaser.Scene {
         });
         this.physics.add.collider(this.candy, this.jugador);
 
+        //Implementacion de particulas
+        var shape1 = new Phaser.Geom.Circle(0, 0, 12);
+        var shape2 = new Phaser.Geom.Rectangle(0, 0, 21, 30);
+
+        var particles = this.add.particles('flares');
+
+        this.emitterCuchillo = particles.createEmitter({
+            frame: { frames: [ 'blue', 'blue', 'blue' ], cycle: true },
+            x: this.knife.x,
+            y: this.knife.y,
+            scale: { start: 0.08, end: 0 },
+            blendMode: 'ADD',
+            emitZone: { type: 'edge', source: shape1, quantity: 48, yoyo: false }
+        });
+        this.emitterCuchillo.setEmitZone({ type: 'edge', source: shape1, quantity: 48, yoyo: false });
+
+        this.emitterCaramelo = particles.createEmitter({
+            frame: { frames: [ 'red', 'red', 'red' ], cycle: true },
+            x: this.candy.x-10,
+            y: this.candy.y-15,
+            scale: { start: 0.08, end: 0 },
+            blendMode: 'ADD',
+            emitZone: { type: 'edge', source: shape2, quantity: 48, yoyo: false }
+        });
+        this.emitterCaramelo.setEmitZone({ type: 'edge', source: shape2, quantity: 48, yoyo: false });
+
         //SONIDOS
         var musica = this.sound.add('musica',{volume: menuoptions.ambientSound/100});
         this.laser = this.sound.add('laser', {volume: menuoptions.effectsSound/100});
@@ -236,12 +266,8 @@ export default class Nivel1 extends Phaser.Scene {
 
         var capaObjetos = this.mapaNivel.getObjectLayer('puertas');
         // Recorre los objetos de la capa
-          
         capaObjetos.objects.forEach( (objeto) => {
-          console.log("nombre:", objeto.name);
-          console.log("X:", objeto.x);
-          console.log("Y:", objeto.y);
-          this.datosPuertas[objeto.name] = {x: objeto.x, y:objeto.y, salida:'---', direccion:'-'};
+            this.datosPuertas[objeto.name] = {x: objeto.x, y:objeto.y, salida:'---', direccion:'-'};
         });
 
         // Carga datos de puertas
@@ -284,17 +310,17 @@ export default class Nivel1 extends Phaser.Scene {
             key: Constantes.FLOWEY.ANIMACION.BAILAR,
             frames: this.anims.generateFrameNames(Constantes.FLOWEY.ID, {
                 start: 30,
-                prefix: "sprite", //Prefijo de los sprites
+                prefix: "sprite", 
                 end: 38
             }),
-            frameRate: 10, //frames por segundo
-            repeat: -1 //Num repeticiones. -1: Repite siempre. Da igual lo que pongamos porque llamamos a las animaciones constantemente
+            frameRate: 10, 
+            repeat: -1 
         });
 
         
         this.mapaNivel.findObject(Constantes.FLOWEY.ID, (d: any) =>{
             this.flowey = this.add.sprite(d.x, d.y, Constantes.FLOWEY.ID, 'sprite30');
-            this.flowey.anims.play(Constantes.FLOWEY.ANIMACION.BAILAR, true);//Animará una única vez ya que repeat=0 en la configuración
+            this.flowey.anims.play(Constantes.FLOWEY.ANIMACION.BAILAR, true);
             this.flowey.scaleX = 1;
             this.flowey.scaleY = 1;
         });
@@ -467,11 +493,11 @@ export default class Nivel1 extends Phaser.Scene {
 
         //Se inicializan datos del juego y que variarán según eventos
         this.puntuacion = 0;
-        this.vidas = 5;
+        Nivel1.vidas = 5;
         this.physics.add.collider(this.jugador, this.balase, this.colision as ArcadePhysicsCallback, undefined, this);
 
         //Inicialización del HUD
-        this.registry.set(Constantes.REGISTRO.VIDAS, this.vidas);
+        this.registry.set(Constantes.REGISTRO.VIDAS, Nivel1.vidas);
         this.events.emit(Constantes.EVENTOS.VIDAS);
 
         //Joystick
@@ -487,14 +513,14 @@ export default class Nivel1 extends Phaser.Scene {
 
         //Botones independientes
         circulo_a = this.add.circle(this.ancho * .72, this.alto * .6, 15, 0x008000).setAlpha(0.6).setInteractive();
-        var circulo_b = this.add.circle(this.ancho * .68, this.alto * .68, 15, 0xff0000).setAlpha(0.6).setInteractive();
+        var circulo_b = this.add.circle(this.ancho * .685, this.alto * .68, 15, 0xff0000).setAlpha(0.6).setInteractive();
         this.input.addPointer(1); //Para que pueda tener un segundo punto de entrada a la pantalla (un segundo control) 
         this.botonpulsado(circulo_a, 'a');
         this.botonpulsado(circulo_b, 'b');
         circulo_a.setScrollFactor(0);
         circulo_b.setScrollFactor(0);//Fijado a cámara
         var texto_circulo_a = this.add.text(this.ancho * .7155, this.alto * .582, 'A', miestilo);
-        var texto_circulo_b = this.add.text(this.ancho * .6755, this.alto * .664, 'B', miestilo);
+        var texto_circulo_b = this.add.text(this.ancho * .681, this.alto * .664, 'B', miestilo);
         texto_circulo_a.setScrollFactor(0);
         texto_circulo_b.setScrollFactor(0);
 
@@ -509,24 +535,48 @@ export default class Nivel1 extends Phaser.Scene {
 
         //Configuracion tecla interaccion
         this.input.keyboard.on('keydown-C', () => {
-            this.comprobarInteraccionConObjetos(this.ancho, this.alto);
+            this.comprobarInteraccionConObjetos();
         });
 
         this.input.keyboard.on('keydown-X', () => {
             if(this.jugador.tieneCuchillo){
-                //Configura disparo
-                console.log('Lanza cuchillo');
                 this.dispararCuchillo()
             }
         });
 
 
     }
+    finjuego(resultado: String){
+        if (resultado == 'ganar' && finjuegoComprobante==false){
+            finjuegoComprobante = true;
+            this.scene.setVisible(false,Constantes.ESCENAS.HUD);
+            this.sound.stopAll();
+            this.cameras.main.fadeOut(150, 0, 0, 0);
+            this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam: any, effect: any) => {
+                this.time.delayedCall(200, () => {
+                    this.scene.stop(Constantes.ESCENAS.NIVEL1);
+                    this.scene.start(Constantes.ESCENAS.MENU);
+                })
+            })
+        } else if (resultado == 'perder' && finjuegoComprobante==false){
+            finjuegoComprobante = true;
+            this.scene.setVisible(false,Constantes.ESCENAS.HUD);
+            this.sound.stopAll();
+            this.cameras.main.fadeOut(150, 0, 0, 0);
+            this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam: any, effect: any) => {
+                this.time.delayedCall(200, () => {
+                    this.scene.stop(Constantes.ESCENAS.NIVEL1);
+                    this.scene.start(Constantes.ESCENAS.GAMEOVER);
+                })
+            })
+        }
+    }
+
     botonpulsado(boton: Phaser.GameObjects.Arc, id: String) {
         boton.on('pointerdown', () => {
             this.registry.set('botonpulsado', true);
             if (id == 'a'){
-                this.comprobarInteraccionConObjetos(this.ancho, this.alto);
+                this.comprobarInteraccionConObjetos();
             }else if (id == 'b'){
                 this.dispararCuchillo()
             }
@@ -545,35 +595,47 @@ export default class Nivel1 extends Phaser.Scene {
                         : balaj.fire(this.jugador.x, this.jugador.y, -1, 1) // Dispara hacia la izquierda
                 }
     }
-    comprobarInteraccionConObjetos(ancho: number, alto: number){
-        if (interactuaC == false){
-            interactuaC = true;
-            createTextBox(this, this.jugador.x-180, this.jugador.y-90, {
-                wrapWidth: 200,
-                fixedWidth: 200,
-                fixedHeight: 40,
-            })
-            .start('hola buenas tardes que tal todo bien si no', 50);
+    comprobarInteraccionConObjetos(){
+        var content = 'Debo de encontrar la forma de conseguir caramelos.'
+
+        if (this.jugador.tieneCuchillo == true){
+            content = 'Unas palabras resuenan en tu cabeza: \n Usa el botón interactivo "B" o la tecla "X" para atacar a tus enemigos y conseguir los caramelos.'
         }
-        
+
         if (this.knife.visible == true){
             if ((Math.abs(this.jugador.body.x - this.knife.body.x)) <= 20  && (Math.abs(this.jugador.body.y - this.knife.body.y)) <= 16) {
                 this.jugador.tieneCuchillo = true;
+                this.emitterCuchillo.visible = false;
                 this.knife.destroy();
+                content = '¡Has obtenido: Cuchillo de juguete! \n Usa el botón interactivo "B" o la tecla "X" para atacar a tus enemigos y conseguir los caramelos.'
+            }
+        }
+
+        if (this.candy.visible == true){
+            if ((Math.abs(this.jugador.body.x - this.candy.body.x)) <= 21 && (Math.abs(this.jugador.body.y - this.candy.body.y)) <= 28){
+                this.finjuego('ganar');
+                this.emitterCaramelo.visible = false;
+                this.candy.destroy();
+            } else{
+                if (interactuaC == false){
+                    interactuaC = true;
+                    createTextBox(this, this.cameras.main.scrollX+(this.cameras.main.width/2)-175, this.cameras.main.scrollY+(this.cameras.main.height/2)+15, {
+                        wrapWidth: 200,
+                        fixedWidth: 230,
+                        fixedHeight: 40,
+                    })
+                    .start(content, 50);
+                }
             }
         }
     }
     colisionJugador(jugador: Phaser.Physics.Arcade.Sprite, enemigo: Phaser.Physics.Arcade.Sprite): void {
         enemigo.destroy();//destruye la bala y vuelve al pool
-        this.vidas--
-        
-
-        console.log(this.vidas)
+        Nivel1.vidas--
     }
     colision(jugador: Phaser.Physics.Arcade.Sprite, enemigo: Phaser.Physics.Arcade.Sprite): void {
         enemigo.destroy();//destruye la bala y vuelve al pool
-        this.vidas--
-        console.log(this.vidas)
+        Nivel1.vidas--
     }
     colisionEnemigo(cuchillo: Phaser.Physics.Arcade.Sprite, enemigo: bandaEnemigo): void {
         enemigo.permisoDisparo = false;
@@ -584,6 +646,11 @@ export default class Nivel1 extends Phaser.Scene {
     override update(time: any, delta: number) {//Se ejecuta cada x milisegundos
 
         this.jugador.update();//Se tiene que llamar al update de cada elemento
+
+        if (Nivel1.vidas == 0){
+            this.finjuego('perder');
+        }
+
         if (interactuaC == false){
             this.input.keyboard.enabled = true;
         } else{
@@ -595,7 +662,6 @@ export default class Nivel1 extends Phaser.Scene {
         this.bandaEnemigo02.update(time,delta)
         this.bandaEnemigo03.update(time,delta)
 
-       
         if (time > this.lastFirede) {
             this.lastFirede = time + 500; //Tiempo entre balas
             var bala = this.balase.get();//Coge del pool

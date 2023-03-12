@@ -5,13 +5,10 @@ import Nivel1 from './nivel1';
 //Clase HUD con 3 bitmaptext
 export default class HUD extends Phaser.Scene {
     private vidasHUD : Phaser.GameObjects.BitmapText | undefined;
-    private puntuacionHUD : Phaser.GameObjects.BitmapText | undefined;
     private objetivoHUD: Phaser.GameObjects.BitmapText | undefined;
 
     private width: number | undefined;
     private height: number | undefined;
-
-    private nombreNivel: string | undefined;
 
     constructor(){
         super('HUD');
@@ -45,6 +42,4 @@ export default class HUD extends Phaser.Scene {
     private actualizaVidas(): void{
         this.vidasHUD!.text = Constantes.HUD.VIDAS + this.registry.get(Constantes.REGISTRO.VIDAS);
     }
-
-    
 }

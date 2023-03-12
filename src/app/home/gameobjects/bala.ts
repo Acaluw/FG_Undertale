@@ -2,14 +2,14 @@ import Nivel1 from "../escenas/nivel1";
 
 export class Bala extends Phaser.GameObjects.Image {
     private veloc: number;
-    private direc!: number;//Si sube o baja
+    private direc!: number;
     private escena!: Nivel1
     private jX !: number
     private jY !: number
     constructor(escena: any) { 
         super(escena, 0, 0, 'bala', 0);
         this.escena=escena;
-        this.veloc = Phaser.Math.GetSpeed(50, 1);//200px  
+        this.veloc = Phaser.Math.GetSpeed(50, 1);
         this.setScale(0.5)
     }
 
@@ -29,18 +29,14 @@ export class Bala extends Phaser.GameObjects.Image {
     };
 
     override update(time: any, delta: number) {
-        // let avance = this.veloc * delta;
-        // avance *= this.direc;
         let incrementoY = this.jY - this.y
         let incrementoX = this.jX - this.x
         this.y -= -Math.atan(incrementoY);
         this.x -= -Math.atan(incrementoX);
         
-        
-        if (!this.escena.cameras.main.worldView.contains(this.x, this.y))
+        if (!this.escena.cameras.main.worldView.contains(this.x, this.y)){
             this.destroy(); 
-        
-        
+        }
     };
 
 }
@@ -53,62 +49,60 @@ export class BalaSimple extends Phaser.Physics.Arcade.Sprite {
     constructor(escena: any) {
         super(escena, 0, 0, 'bala', 0);
         this.escena = escena;
-        this.veloc = Phaser.Math.GetSpeed(300, 1);//200px en 1 segundo  
+        this.veloc = Phaser.Math.GetSpeed(300, 1);
         this.setScale(0.5);
     }
 
     //Configura el disparo
     fire(x: number, y: number, direccion: number, tipodisparo: number, sentidojawa: String) {
         this.direc = direccion;//para permitir que balas vayan hacia izq y hacia der
-        this.tipodisparo=tipodisparo;//lo determina tipo de jawa
+        this.tipodisparo=tipodisparo;
         this.setPosition(x, y);//Posición de inicio disparo
         if (tipodisparo == 0) {
-            this.setGravityY(0);//Modifica gravedad restándo la general: disparo horizontal con gravedad NULA 
+            this.setGravityY(0);
         } else {
-            this.setGravityY(0);//Modifica gravedad : disparo diagonal que NO escapa de la gravedad
+            this.setGravityY(0);
         }
-        if (direccion == 1) this.flipX = true;//voltea sprite
+        if (direccion == 1) this.flipX = true;
     };
 
-    //Este override no se puede hacer en los GROUP, sí en los Sprites
-    override update(time: any, delta: number) {//delta es el incremento por segundo (algo parecido a los FPS)
+    override update(time: any, delta: number) {
         let avance = this.veloc * delta;
         let avancex = avance * this.direc;
         this.y -= avancex;
-        if (this.tipodisparo == 1) //Si disparo en diagonal también sube la misma distancia (parábola)
+        if (this.tipodisparo == 1)
             this.y -= avance;
-        if (!this.escena.cameras.main.worldView.contains(this.x, this.y))//Si se sale de cámara, destruye y vuelve al pool
+        if (!this.escena.cameras.main.worldView.contains(this.x, this.y))
             this.destroy();
     };
 }
 export class BalaJugador extends Phaser.Physics.Arcade.Sprite {
     private veloc: number;
-    private direc!: number;//Si izq o der
+    private direc!: number;
     private escena!: Phaser.Scene;
     private tipodisparo!: number;
 
     constructor(escena: any) {
         super(escena, 0, 0, 'knife', 0);
         this.escena = escena;
-        this.veloc = Phaser.Math.GetSpeed(300, 1);//200px en 1 segundo  
+        this.veloc = Phaser.Math.GetSpeed(300, 1);
         this.setScale(1);
     }
 
     //Configura el disparo
     fire(x: number, y: number, direccion: number, tipodisparo: number) {
         this.direc = direccion;//para permitir que balas vayan hacia izq y hacia der
-        this.tipodisparo=tipodisparo;//lo determina tipo de jawa
+        this.tipodisparo=tipodisparo;
         this.setPosition(x, y);//Posición de inicio disparo
         
     };
     colisionEnemiga(bala: BalaJugador, enemigo: Phaser.Physics.Arcade.Sprite): void {
-        if ((Math.abs(bala.body.x - enemigo.body.x)) < 1) { //Controla la cercanía del overlap. Poner a 100
+        if ((Math.abs(bala.body.x - enemigo.body.x)) < 1) { 
             enemigo.destroy();
         }
     }
 
-    //Este override no se puede hacer en los GROUP, sí en los Sprites
-    override update(time: any, delta: number) {//delta es el incremento por segundo (algo parecido a los FPS)
+    override update(time: any, delta: number) {
         if(this.tipodisparo==0){
             let avance = this.veloc * delta;
             let avancey = avance * this.direc;

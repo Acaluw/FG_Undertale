@@ -2,9 +2,7 @@
 //Muy importante: NO REPETIR NINGÚN literal
 const Constantes = {
     EVENTOS:{
-        VIDAS: 'cambiaVidas',
-        PUNTUACION: 'cambiaPuntuacion',
-        BESKAR: 'cambiaBeskar'
+        VIDAS: 'cambiaVidas'
     },
     HUD:{
         VIDAS: 'Vidas '
@@ -14,15 +12,11 @@ const Constantes = {
         MENU: 'Menu',
         MENUOPTIONS: 'MenuOptions',
         NIVEL1: 'Nivel1',
+        GAMEOVER: 'GameOver',
         HUD: 'HUD'
     },
     REGISTRO:{
-        VIDAS: 'vidas',
-        PUNTUACION: 'puntuacion',
-        NOMBRENIVEL: 'nombrenivel',
-        BESKAR:'numbeskar',
-        BESKARMAX: 'numbeskarmax',
-        GANADO: 'nivelpasado'
+        VIDAS: 'vidas'
     }, 
     MAPAS: {
         NIVEL1:{
@@ -100,12 +94,6 @@ const Constantes = {
         }
     },  
     SONIDOS:{
-        JAWAATAQUE: 'utinni',
-        JAWAMUERE: 'jawamuere',
-        AY: 'ay',
-        MONEY: 'money',
-        INTRO: 'intro',
-        DUNAS: 'dunas',
         MUSICA: 'musica',
         MENUMUSIC: 'menumusic',
         BALAS: 'laser',

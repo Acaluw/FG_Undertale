@@ -36,7 +36,7 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
 
     override update() {
         //Control de Movimiento. Teclas excluyentes.
-        this.escena.registry.set(Constantes.REGISTRO.VIDAS, this.escena.vidas);
+        this.escena.registry.set(Constantes.REGISTRO.VIDAS, Nivel1.vidas);
         this.escena.events.emit(Constantes.EVENTOS.VIDAS); 
         if (this.cursores.left.isDown || this.escena.joystickCursors.left.isDown) {
             //console.log("Izquierda...");
@@ -115,11 +115,6 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         }
 
         jugador.escena.cameras.main.fadeIn(1000, 0, 0, 0)
-    
-        jugador.escena.registry.set(Constantes.REGISTRO.VIDAS, jugador.escena.vidas);
-        jugador.escena.events.emit(Constantes.EVENTOS.VIDAS);
-        
-
     }
     
 }

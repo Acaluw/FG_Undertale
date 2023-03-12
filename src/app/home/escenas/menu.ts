@@ -5,22 +5,26 @@ import menuoptions from "./menuoptions";
 export default class Menu extends Phaser.Scene {
 
     public static musica: any;
+    private background_parallax: any;
 
     constructor() {
         super('Menu');
     }
 
-    preload() //Ejecuta una única vez la precarga de los assets
+    preload()
     {
     }
 
-    create() //Crea escena
+    create()
     {
         const ancho = this.sys.canvas.width
         const alto = this.sys.canvas.height;
 
+        this.cameras.main.fadeIn(150, 0, 0, 0);
+
         //Creacion de elementos
-        const background = this.add.image(ancho / 2, alto / 2, 'menu_background');
+        this.background_parallax = this.add.tileSprite(ancho/2, alto/2, 0, 0, 'menu_background_parallax');
+        const background = this.add.tileSprite(ancho / 2, alto / 2, 0, 0, 'menu_background');
         const title = this.add.image(ancho / 2, alto / 7, Constantes.FONDOS.LOGO);
         const subtitle = this.add.image(ancho / 2, (alto / 5)+25, 'menu_subtitle');
         const btnPlay = this.add.image(ancho/2, (alto/2)-30, 'menu_play');
@@ -30,7 +34,6 @@ export default class Menu extends Phaser.Scene {
         const member_javier = this.add.image(120, alto-20, 'member_javier');
         const member_juan = this.add.image(ancho/2, alto-20, 'member_juan');
         const member_alvaro = this.add.image(ancho-120, alto-20, 'member_alvaro');
-
         
         //Ajustes de elementos
         title.scaleX = 0.5;
@@ -68,10 +71,11 @@ export default class Menu extends Phaser.Scene {
             loop: true
         });
     
-        this.game.scale.refresh(); //Reescala al tamaño de la pantalla
+        this.game.scale.refresh();
     }
 
-    override update() {//Se ejecuta cada x milisegundos
+    override update() {
+        this.background_parallax.tilePositionX +=0.5;
     }
 
     cambiarEscena(titulo: any, escena: string) 
