@@ -6,7 +6,6 @@ import Nivel1 from './nivel1';
 export default class HUD extends Phaser.Scene {
     private vidasHUD : Phaser.GameObjects.BitmapText | undefined;
     private puntuacionHUD : Phaser.GameObjects.BitmapText | undefined;
-    private puntLetraHUD : Phaser.GameObjects.BitmapText | undefined;
     private objetivoHUD: Phaser.GameObjects.BitmapText | undefined;
 
     private width: number | undefined;
@@ -27,7 +26,6 @@ export default class HUD extends Phaser.Scene {
         //Otra forma de capturar la escena sin tener que pasarla por el constructor
         const nivel: Phaser.Scene = this.scene.get('Nivel1');//Necesitamos la escena asociada a los eventos, será Nivel1 
         nivel.events.on(Constantes.EVENTOS.VIDAS, this.actualizaVidas, this);
-        nivel.events.on(Constantes.EVENTOS.PUNTUACION, this.actualizaPuntuacion, this);
         let tamaletra=30;
         const border = this.add.image(150, this.height!-30, 'menu_options_border');
         const border_background = this.add.image(150, this.height!-30, 'menu_options_background');
@@ -38,9 +36,6 @@ export default class HUD extends Phaser.Scene {
         border_background.alpha = 0.7;
         //VIDAS
         this.vidasHUD = this.add.bitmapText(30, 20, Constantes.FUENTES.NOMBREFUENTE, Constantes.HUD.VIDAS+nivel.registry.get(Constantes.REGISTRO.VIDAS), tamaletra);
-        //PUNTUACIÓN
-        this.puntuacionHUD= this.add.bitmapText(this.width! - 100, 20, Constantes.FUENTES.NOMBREFUENTE,'0000', tamaletra);
-        this.puntLetraHUD= this.add.bitmapText(this.width! - 275, 20, Constantes.FUENTES.NOMBREFUENTE,'Puntuacion: ', tamaletra);
         //OBJETIVO
         this.objetivoHUD = this.add.bitmapText(20, this.height!-40, Constantes.FUENTES.NOMBREFUENTE, 'Objetivo: Consigue los caramelos', tamaletra);
         this.objetivoHUD.scaleX = 0.5;
@@ -51,8 +46,5 @@ export default class HUD extends Phaser.Scene {
         this.vidasHUD!.text = Constantes.HUD.VIDAS + this.registry.get(Constantes.REGISTRO.VIDAS);
     }
 
-    private actualizaPuntuacion(): void {
-        //Función PAD permite configurar el tamaño representado de un número Pad(valor,número,carácter inicial,dirección[1=de izq a der])
-        this.puntuacionHUD!.text = Phaser.Utils.String.Pad(this.registry.get(Constantes.REGISTRO.PUNTUACION), 4, '0', 1);
-    }
+    
 }

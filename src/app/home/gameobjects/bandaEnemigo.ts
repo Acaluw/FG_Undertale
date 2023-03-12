@@ -4,11 +4,13 @@ import { BalaSimple } from './bala';
 
 
 export default class BandaEnemigo extends Phaser.Physics.Arcade.Group {
+    public permisoDisparo = true
     private escena: Phaser.Scene;
     private velocidad: number;
     private nombreanimacion: String;
     private balas: Phaser.Physics.Arcade.Group | undefined;
     private jugador: any;
+    
     
     constructor(escena: any, nombreCapaObjeto: string, idObjeto: string, animObjeto: string, velocidad: number) {
         super(escena.physics.world, escena);
@@ -61,7 +63,7 @@ export default class BandaEnemigo extends Phaser.Physics.Arcade.Group {
             });
             //Se añade collider
             escena.physics.add.collider(this.jugador, enemigo.balas, this.colision as ArcadePhysicsCallback, undefined, this);//el 4º parámetro indica si está activa la colisión o no
-            
+
         });
         
     }
@@ -116,7 +118,8 @@ export default class BandaEnemigo extends Phaser.Physics.Arcade.Group {
                 var bala = enemigo.balas.get();//Coge del pool
                 if (bala) {
                     enemigo.ultimodisparo = time + 500; //Tiempo entre balas
-                    bala.fire(enemigo.x, enemigo.y, direcdisparo, enemigo.tipoEnemigo);
+                    if(this.permisoDisparo)
+                        bala.fire(enemigo.x, enemigo.y, direcdisparo, enemigo.tipoEnemigo);
                 }
             }
         }

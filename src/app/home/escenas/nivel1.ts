@@ -7,6 +7,8 @@ import bandaEnemigo from "../gameobjects/bandaEnemigo";
 import menuoptions from "./menuoptions";
 import knife from "../gameobjects/knife";
 import Candy from "../gameobjects/candy";
+import { BalaJugador } from "../gameobjects/bala";
+
 interface Datos {
     x: number | undefined;
     y: number | undefined;
@@ -139,6 +141,9 @@ export default class Nivel1 extends Phaser.Scene {
     private mijoystick: any;//Variable mapeada  del plugin JOYSTICK
     public joystickCursors: any;//Cursores virtuales para poder utilizar en JUGADOR.TS
     private dialogbox: any;
+
+    private balasj!: Phaser.GameObjects.Group;//Balas jugador
+
 
     constructor() {
         super(Constantes.ESCENAS.NIVEL1);
@@ -456,9 +461,9 @@ export default class Nivel1 extends Phaser.Scene {
         this.physics.add.collider(this.bandaEnemigo02, this.capasueloMapaNivel);
         this.physics.add.collider(this.bandaEnemigo03, this.capasueloMapaNivel);
 
-        this.physics.add.overlap(this.jugador, this.bandaEnemigo01, this.jugador.ataque as ArcadePhysicsCallback, undefined, this);
-        this.physics.add.overlap(this.jugador, this.bandaEnemigo02, this.jugador.ataque as ArcadePhysicsCallback, undefined, this);
-        this.physics.add.overlap(this.jugador, this.bandaEnemigo03, this.jugador.ataque as ArcadePhysicsCallback, undefined, this);
+        this.physics.add.overlap(this.jugador, this.bandaEnemigo01, this.colisionJugador as ArcadePhysicsCallback, undefined, this);
+        this.physics.add.overlap(this.jugador, this.bandaEnemigo02, this.colisionJugador as ArcadePhysicsCallback, undefined, this);
+        this.physics.add.overlap(this.jugador, this.bandaEnemigo03, this.colisionJugador as ArcadePhysicsCallback, undefined, this);
 
         //Se inicializan datos del juego y que variarán según eventos
         this.puntuacion = 0;
@@ -466,8 +471,6 @@ export default class Nivel1 extends Phaser.Scene {
         this.physics.add.collider(this.jugador, this.balase, this.colision as ArcadePhysicsCallback, undefined, this);
 
         //Inicialización del HUD
-        this.registry.set(Constantes.REGISTRO.PUNTUACION, this.puntuacion);
-        this.events.emit(Constantes.EVENTOS.PUNTUACION);
         this.registry.set(Constantes.REGISTRO.VIDAS, this.vidas);
         this.events.emit(Constantes.EVENTOS.VIDAS);
 
@@ -495,6 +498,15 @@ export default class Nivel1 extends Phaser.Scene {
         texto_circulo_a.setScrollFactor(0);
         texto_circulo_b.setScrollFactor(0);
 
+        this.balasj = this.physics.add.group({
+            classType: BalaJugador,
+            maxSize: 1,
+            runChildUpdate: true //permite actualizar el estado de la clase Bala
+        });
+        this.physics.add.overlap(this.balasj, this.bandaEnemigo01, this.colisionEnemigo as unknown as ArcadePhysicsCallback, undefined, this);
+        this.physics.add.overlap(this.balasj, this.bandaEnemigo02, this.colisionEnemigo as unknown as ArcadePhysicsCallback, undefined, this);
+        this.physics.add.overlap(this.balasj, this.bandaEnemigo03, this.colisionEnemigo as unknown as ArcadePhysicsCallback, undefined, this);
+
         //Configuracion tecla interaccion
         this.input.keyboard.on('keydown-C', () => {
             this.comprobarInteraccionConObjetos(this.ancho, this.alto);
@@ -504,20 +516,35 @@ export default class Nivel1 extends Phaser.Scene {
             if(this.jugador.tieneCuchillo){
                 //Configura disparo
                 console.log('Lanza cuchillo');
-                
+                this.dispararCuchillo()
             }
         });
-    }
 
+
+    }
     botonpulsado(boton: Phaser.GameObjects.Arc, id: String) {
         boton.on('pointerdown', () => {
             this.registry.set('botonpulsado', true);
             if (id == 'a'){
                 this.comprobarInteraccionConObjetos(this.ancho, this.alto);
+            }else if (id == 'b'){
+                this.dispararCuchillo()
             }
+
         });
     }
-
+    dispararCuchillo(){
+        var balaj = this.balasj.get();//Coge del pool
+                if (balaj && this.jugador.tieneCuchillo) {
+                    this.jugador.getDireccionEsperar() == 1 ? 
+                        balaj.fire(this.jugador.x, this.jugador.y, -1, 0)// dispara hacia arriba 
+                        : this.jugador.getDireccionEsperar() == 2 ? 
+                        balaj.fire(this.jugador.x, this.jugador.y, 1, 1) //Dispara hacia la derecha
+                        : this.jugador.getDireccionEsperar() == 3 ?
+                        balaj.fire(this.jugador.x, this.jugador.y, 1, 0) // Dispara hacia abajo
+                        : balaj.fire(this.jugador.x, this.jugador.y, -1, 1) // Dispara hacia la izquierda
+                }
+    }
     comprobarInteraccionConObjetos(ancho: number, alto: number){
         if (interactuaC == false){
             interactuaC = true;
@@ -536,12 +563,22 @@ export default class Nivel1 extends Phaser.Scene {
             }
         }
     }
+    colisionJugador(jugador: Phaser.Physics.Arcade.Sprite, enemigo: Phaser.Physics.Arcade.Sprite): void {
+        enemigo.destroy();//destruye la bala y vuelve al pool
+        this.vidas--
+        
 
+        console.log(this.vidas)
+    }
     colision(jugador: Phaser.Physics.Arcade.Sprite, enemigo: Phaser.Physics.Arcade.Sprite): void {
         enemigo.destroy();//destruye la bala y vuelve al pool
+        this.vidas--
+        console.log(this.vidas)
     }
-    colisionEnemigo(jugador: Phaser.Physics.Arcade.Sprite, enemigo: Phaser.Physics.Arcade.Sprite): void {
-        enemigo.destroy();
+    colisionEnemigo(cuchillo: Phaser.Physics.Arcade.Sprite, enemigo: bandaEnemigo): void {
+        enemigo.permisoDisparo = false;
+        cuchillo.destroy()
+        
     }
 
     override update(time: any, delta: number) {//Se ejecuta cada x milisegundos
@@ -557,6 +594,8 @@ export default class Nivel1 extends Phaser.Scene {
         this.bandaEnemigo01.update(time,delta)
         this.bandaEnemigo02.update(time,delta)
         this.bandaEnemigo03.update(time,delta)
+
+       
         if (time > this.lastFirede) {
             this.lastFirede = time + 500; //Tiempo entre balas
             var bala = this.balase.get();//Coge del pool

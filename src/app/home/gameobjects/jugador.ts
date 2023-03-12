@@ -10,6 +10,8 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
     private velocidad: number;
     private direccionEsperar: number;
     
+
+    
     constructor(config: any) { //se le pasa escena para utilizar los objetos que contiene
         super(config.escena, config.x, config.y, config.texture);
         this.tieneCuchillo = false;
@@ -28,10 +30,14 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
         //Control entrada
         this.cursores = this.escena.input.keyboard.createCursorKeys();
         this.direccionEsperar = 3;
+
+
     }
 
     override update() {
-        //Control de Movimiento. Teclas excluyentes. 
+        //Control de Movimiento. Teclas excluyentes.
+        this.escena.registry.set(Constantes.REGISTRO.VIDAS, this.escena.vidas);
+        this.escena.events.emit(Constantes.EVENTOS.VIDAS); 
         if (this.cursores.left.isDown || this.escena.joystickCursors.left.isDown) {
             //console.log("Izquierda...");
             this.setVelocityX(this.velocidad * -1);
@@ -83,7 +89,9 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
             }
         }
     }
-
+    public getDireccionEsperar(){
+        return this.direccionEsperar
+    }
     public pasaPuerta(jugador: Jugador, objeto: Phaser.Physics.Arcade.Sprite): void {
         jugador.escena.cameras.main.fadeOut(1000, 0, 0, 0)
         const siguientePuerta = jugador.escena.datosPuertas[objeto.name].salida;
@@ -110,16 +118,8 @@ export default class Jugador extends Phaser.Physics.Arcade.Sprite {
     
         jugador.escena.registry.set(Constantes.REGISTRO.VIDAS, jugador.escena.vidas);
         jugador.escena.events.emit(Constantes.EVENTOS.VIDAS);
-
-
-        jugador.escena.registry.set(Constantes.REGISTRO.PUNTUACION, jugador.escena.puntuacion);
-        jugador.escena.events.emit(Constantes.EVENTOS.PUNTUACION);
         
 
     }
-    public ataque(jugador: Jugador, enemigo: Phaser.Physics.Arcade.Sprite): void {
-        if ((Math.abs(jugador.body.x - enemigo.body.x)) < 1) { //Controla la cercanía del overlap. Poner a 100
-            enemigo.destroy();
-        }
-    }
+    
 }
